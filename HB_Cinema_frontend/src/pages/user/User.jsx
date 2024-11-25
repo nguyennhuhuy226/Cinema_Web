@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Header from "../components/User/header/Header";
-import Home from "../pages/Home";
-import Movie from "../pages/Movie";
-import MovieDetailPage from "../pages/MovieDetailPage";
-import SelectedSeatPage from "../pages/SelectedSeatPage";
-import ShowTime from "../pages/ShowTime";
-import TopRate from "../pages/TopRate";
-import { getMyInfo } from "../api/apiUser";
+import Header from "../../components/User/header/Header";
+import Home from "../user-pages/Home";
+import Movie from "../user-pages/Movie";
+import MovieDetailPage from "../user-pages/MovieDetailPage";
+import SelectedSeatPage from "../user-pages/SelectedSeatPage";
+import ShowTime from "../user-pages/ShowTime";
+import TopRate from "../user-pages/TopRate";
+import { getMyInfo } from "../../api/apiUser";
 
 const User = () => {
   const [myInfo, setMyInfo] = useState({});

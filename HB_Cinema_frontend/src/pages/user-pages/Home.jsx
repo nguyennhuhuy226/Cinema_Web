@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Banner from "../components/User/banner/Banner";
-import MovieList from "../components/User/movie-list/MovieList";
-import Footer from "../components/User/footer/Footer";
-import { getMovies } from "../api/apiMovie";
+import Banner from "../../components/User/banner/Banner";
+import MovieList from "../../components/User/movie-list/MovieList";
+import Footer from "../../components/User/footer/Footer";
+import { getMovies } from "../../api/apiMovie";
 
 
 const Home = () => {

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Admin from '../routes/Admin';
-import User from "./User";
+import User from "../pages/user/User";
 import Login from "../pages/login/Login";
+import Admin from "../pages/admin/Admin";
 
 
 const AppRoutes = () => {

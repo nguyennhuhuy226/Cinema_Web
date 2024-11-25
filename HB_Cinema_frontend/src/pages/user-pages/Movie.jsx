@@ -1,6 +1,6 @@
 import React from "react";
-import MovieDetail from "../components/User/movie-details/MovieDetail";
-import Footer from "../components/User/footer/Footer";
+import MovieDetail from "../../components/User/movie-details/MovieDetail";
+import Footer from "../../components/User/footer/Footer";
 
 const Movie = () => {
   return (

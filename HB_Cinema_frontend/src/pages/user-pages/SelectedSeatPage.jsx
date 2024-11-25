@@ -1,5 +1,5 @@
 import React from 'react'
-import SelectedSeat from '../components/User/selected-seat/SelectedSeat'
+import SelectedSeat from '../../components/User/selected-seat/SelectedSeat'
 
 const SelectedSeatPage = () => {
   return (

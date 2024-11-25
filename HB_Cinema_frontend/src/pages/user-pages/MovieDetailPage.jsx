@@ -1,7 +1,7 @@
 import React from "react";
 
-import MovieSchedule from "../components/User/movie-schedule/MovieSchedule";
-import MovieDetail from "../components/User/movie-details/MovieDetail";
+import MovieSchedule from "../../components/User/movie-schedule/MovieSchedule";
+import MovieDetail from "../../components/User/movie-details/MovieDetail";
 
 
 
