@@ -1,0 +1,168 @@
+
+
+.banner {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("../../../assets/images/banner.png");
+  }
+  
+  .banner-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 0.4;
+  }
+  
+  .banner-content {
+    position: relative;
+    z-index: 20;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 5% ;
+    gap: 30px;
+  }
+  
+  .banner-text-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 50%;
+    gap: 1.25rem;
+    padding-right: 5%;
+  }
+  
+  .banner-tag {
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    color: white;
+    background: linear-gradient(to right, #dc2626, #3b82f6);
+  }
+  
+  .banner-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+    padding-bottom: 10px;
+  }
+  
+  .banner-ratings {
+    display: flex;
+    gap: 0.75rem;
+    padding-bottom: 10px;
+  }
+  
+  .banner-description {
+    color: white;
+    height: 6em;
+    display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 6;        /* Giới hạn số dòng */
+      overflow: hidden;             /* Ẩn phần nội dung vượt quá */
+      text-overflow: ellipsis;
+      padding-bottom: 20px;
+  }
+  
+  .banner-buttons {
+    display: flex;
+    gap: 3rem;
+    padding-top: 20px;
+  }
+
+
+
+  .button-details,
+  .button-buy {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: white;
+    border-radius: 12px;
+    padding: 10px 30px;
+  }
+  
+  .button-details {
+    background-color: black;
+  }
+  
+  .button-buy {
+    background-color: #dc2626;
+  }
+  
+  .banner-image-section {
+    display: flex;
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .banner-image-container {
+    position: relative;
+    height: 450px;
+    width: 350px;
+    cursor: pointer;
+  }
+  
+  .banner-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.75rem;
+  }
+  
+  .banner-image-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 0.75rem;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    backdrop-filter: blur(5px);
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .banner-image-container:hover .banner-image-overlay {
+    opacity: 1;
+  }
+  
+  .play-icon {
+    position: relative;
+    z-index: 20;
+    height: 4rem;
+    width: 4rem;
+  }
+  @media (max-width: 768px) {
+    .banner-image-section {
+      display: none;
+    }
+    .banner-text-section {
+      padding-right: 5%;
+    }
+    .banner-description {
+      width: 100%;                   /* Giới hạn chiều rộng */
+      height: 4.5em;                /* Giới hạn chiều cao (ví dụ: cho 4 dòng) */
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;        /* Giới hạn số dòng */
+      overflow: hidden;             /* Ẩn phần nội dung vượt quá */
+      text-overflow: ellipsis; /* Thêm dấu "..." khi bị cắt */
+      padding-right: 5%;  
+      font-size: small;   
+  }
+  .banner-content {
+    padding-left: 0% ;
+  }
+    
+  }

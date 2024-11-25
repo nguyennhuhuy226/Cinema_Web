@@ -1,0 +1,328 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px 3%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1001;
+}
+
+.header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  backdrop-filter: blur(50px);
+  z-index: -1;
+}
+
+.logo {
+  font-size: 2rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  text-shadow: 0 0 5px #fa812f, 0 0 10px #fa812f, 0 0 15px #fa812f;
+  animation: glow 1.5s infinite alternate;
+}
+/* Hiệu ứng phát sáng */
+@keyframes glow {
+  from {
+    text-shadow: 0 0 5px orangered, 0 0 10px orangered, 0 0 15px orangered,
+      0 0 20px orangered;
+  }
+  to {
+    text-shadow: 0 0 10px rgb(255, 157, 0), 0 0 20px rgb(255, 166, 0),
+      0 0 30px rgb(255, 174, 0), 0 0 40px rgb(255, 145, 0);
+  }
+}
+
+.navbar a {
+  font-size: 1.15rem;
+  color: #1a1a1d;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 2.5rem;
+  transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+  color: #fa812f;
+}
+
+#check {
+  display: none;
+}
+
+.icon {
+  position: absolute;
+  left: 5%;
+  font-size: 2rem;
+  color: #fa812f;
+  cursor: pointer;
+  display: none;
+}
+
+.login__btn {
+  padding: 10px 30px;
+  border: unset;
+  border-radius: 15px;
+  color: #fff;
+  z-index: 1;
+  background: #fa812f;
+  position: relative;
+  font-weight: 1000;
+  font-size: 16px;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  transition: all 250ms;
+  overflow: hidden;
+}
+
+.login__btn a {
+  text-decoration: none;
+}
+
+.login__btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  border-radius: 15px;
+  background-color: #fff;
+  z-index: -1;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  transition: all 250ms;
+}
+
+.login__btn:hover {
+  background-color: #fff;
+  border: 2px solid #fa812f;
+  color: #fa812f;
+}
+
+.login__btn:hover::before {
+  width: 100%;
+}
+
+/* New styles for user section */
+.user-section {
+  position: relative;
+  margin-left: 20px;
+}
+
+.user-avatar-wrapper {
+  position: relative;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #fa812f;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.user-avatar:hover {
+  background-color: #fff;
+  color: #fa812f;
+  border: 3px solid #fa812f;
+  transition: all 250ms;
+}
+
+.user-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  width: 200px;
+  background-color: #faf7f7;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  z-index: 10;
+}
+
+.user-info {
+  padding: 12px 16px;
+}
+
+.username {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.email {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.divider {
+  margin: 4px 0;
+  border-top: 1px solid #e5e7eb;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  text-align: left;
+  font-size: 0.875rem;
+  color: #374151;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: #f3f4f6;
+}
+
+.logout {
+  color: #dc2626;
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.search__container {
+  width: 245px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, rgb(239, 119, 39), rgb(255, 231, 231));
+  border-radius: 30px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.075);
+}
+.search__btn {
+  border-radius: 2px;
+  width: 240px;
+  height: 40px;
+  border: none;
+  outline: none;
+  caret-color: rgb(255, 81, 0);
+  background-color: rgb(255, 255, 255);
+  border-radius: 30px;
+  padding-left: 15px;
+  letter-spacing: 0.8px;
+  color: #1a1a1d;
+  font-size: 13.4px;
+}
+@media (max-width: 1000px) {
+  .header {
+    padding: 1.3rem 5%;
+    height: 50px;
+    justify-content: space-between;
+  }
+  .icon {
+    display: inline-flex;
+    margin-top: 20px;
+  }
+  #check:checked ~ .icon #menu-icon {
+    display: none;
+  }
+  .icon #close-icon {
+    display: none;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  #check:checked ~ .icon #close-icon {
+    display: block;
+  }
+
+  .navbar {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 0px;
+    flex-direction: column;
+    background-color: #fff;
+    backdrop-filter: blur(50px);
+    box-shadow: 0 0.5rem 1 rem rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: 0.3s ease;
+  }
+
+  #check:checked ~ .navbar {
+    height: 14rem;
+  }
+  .navbar a {
+    display: block;
+    font-size: 1.1rem;
+    margin: 1.5rem 0;
+    text-align: center;
+    transform: translateY(0px);
+    opacity: 0;
+    transition: 0.3s ease;
+  }
+
+  #check:checked ~ .navbar a {
+    transform: translateY(0);
+    opacity: 1;
+    transition-delay: calc(0.15s * var(--i));
+    color: #5b5b5c;
+  }
+  #check:checked ~ .navbar a:hover {
+    color: #fa812f;
+  }
+
+  .user-section {
+    padding: 8px 18px;
+    position: absolute;
+    right: 0px; /* Di chuyển nút Login sang trái */
+    top: 35px;
+    transform: translateY(-50%);
+  }
+  .search__container {
+    position: absolute;
+    right: 20%;
+    top: 40px;
+    transform: translateY(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .search__container {
+    width: 250px;
+    position: absolute;
+    right: 25%;
+    top: 50%;
+    margin-top: 13px;
+    transform: translateY(-50%);
+  }
+  .search__btn {
+    width: 240px;
+  }
+}
+
+@media (max-width: 500px) {
+  .search__container {
+    display: none;
+  }
+  .search__btn {
+    display: none;
+  }
+}

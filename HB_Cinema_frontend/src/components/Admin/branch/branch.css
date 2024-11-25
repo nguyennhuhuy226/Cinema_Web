@@ -1,0 +1,28 @@
+/* BRAND component */
+.custom_card {
+    height: 370px;
+  }
+  
+  .custom_image {
+    height: 63%;
+  }
+  
+  .custom_buton {
+    border-radius: 8px;
+    background-color: rgb(175, 177, 102);
+    font-style: italic;
+    color: aliceblue;
+  }
+  
+  .custom_buton:hover {
+    background-color: lightblue;
+    /* Thay đổi màu nền khi hover */
+    transform: scale(1.05);
+    /* Phóng to nhẹ khi hover */
+  }
+  
+  .margin_linkMap {
+    margin-left: 75%;
+    margin-top: -6%;
+    font-size: small;
+  }

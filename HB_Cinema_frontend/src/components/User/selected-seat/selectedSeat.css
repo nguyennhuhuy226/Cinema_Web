@@ -1,0 +1,212 @@
+.seat-container {
+    width: 100%;
+    max-width: 1280px; /* container */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 16px; /* px-4 */
+    padding-right: 16px; /* px-4 */
+    padding-top: 32px; /* py-8 */
+    padding-bottom: 32px; /* py-8 */
+  }
+  
+  .screen {
+    width: 100%;
+    max-width: 768px; /* max-w-3xl */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 32px; /* mb-8 */
+  }
+  
+  .screen-display {
+    height: 32px; /* h-8 */
+    background-color: #d1d5db; /* bg-gray-300 */
+    border-radius: 0.5rem; /* rounded-lg */
+    width: 100%;
+    text-align: center;
+    font-size: 0.875rem; /* text-sm */
+    color: #4b5563; /* text-gray-600 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px; /* mb-2 */
+  }
+  
+  .seats-grid {
+    padding: 5px 5px;
+    width: 100%;
+    max-width: 768px; /* max-w-3xl */
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr); /* grid-cols-10 */
+    gap: 8px; /* gap-2 */
+    overflow-x: auto;
+    scrollbar-width: none; /* Ẩn thanh cuộn cho Firefox */
+    -ms-overflow-style: none; /* Ẩn thanh cuộn cho IE/Edge */
+  }
+  
+  .seats-grid::-webkit-scrollbar {
+    display: none; /* Ẩn thanh cuộn cho Chrome/Safari */
+  }
+
+  /* Ghế cơ bản */
+  .seat-button {
+    height: 50px; /* h-14 */
+    position: relative;
+    font-size: 0.75rem; /* text-xs */
+    font-weight: 500; /* font-medium */
+    transition: transform 0.2s ease-in-out; /* transition-all duration-200 */
+  }
+  
+  .seat-button:hover {
+    transform: scale(1.05); /* hover:scale-105 */
+  }
+  
+  .seat-button:disabled {
+    cursor: not-allowed; /* disabled:cursor-not-allowed */
+  }
+  
+  .seat-button:disabled:hover {
+    transform: scale(1); /* disabled:hover:scale-100 */
+  }
+  
+  /* Ghế đơn */
+  .seat-single {
+    aspect-ratio: 1 / 1; /* aspect-square */
+    border-radius: 0.5rem; /* rounded-lg */
+  }
+  
+  /* Ghế đôi */
+  .seat-couple {
+    aspect-ratio: 2 / 1; /* aspect-[2/1] */
+    border-radius: 0.5rem; /* rounded-lg */
+    grid-column: span 2; /* col-span-2 */
+  }
+  
+  /* Màu sắc ghế */
+  .seat-standard {
+    background-color: #10b981; /* bg-green-500 */
+    color: white;
+  }
+  
+  .seat-vip {
+    background-color: #fb923c; /* bg-orange-400 */
+    color: white;
+  }
+  
+  .seat-couple {
+    background-color: #f472b6; /* bg-pink-400 */
+    color: white;
+  }
+  
+  .seat-booked {
+    background-color: #6b7280; /* bg-gray-500 */
+    color: #d1d5db; /* text-gray-300 */
+  }
+  
+  .seat-selected {
+    background-color: #108AB1; /* bg-teal-400 */
+    color: white;
+    border: 2px solid black; /* Thêm viền đen */
+  }
+  
+  /* Tên và giá ghế */
+  .seat-name {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .seat-price {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    font-size: 8px; /* text-[8px] */
+  }
+  
+  /* Legend */
+  .seat-legend {
+    width: 100%;
+    max-width: 768px; /* max-w-3xl */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 32px; /* mt-8 */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* gap-4 */
+    justify-content: center;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* gap-2 */
+  }
+  
+  .legend-color {
+    width: 16px; /* w-4 */
+    height: 16px; /* h-4 */
+    border-radius: 0.5rem; /* rounded */
+  }
+  
+  /* Summary */
+  .summary-container {
+    width: 100%;
+    max-width: 768px; /* max-w-3xl */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 350px; 
+    padding: 16px; /* p-4 */
+    background-color: #f3f4f6; /* bg-gray-100 */
+    border-radius: 0.5rem; /* rounded-lg */
+  }
+  
+  .summary-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* gap-4 */
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .book-button {
+    width: 100%;
+    margin-top: 16px; /* mt-4 */
+    background-color: #2563eb; /* bg-blue-600 */
+    color: white;
+    padding: 12px; /* py-3 */
+    border-radius: 0.5rem; /* rounded-lg */
+    font-weight: 500; /* font-medium */
+  }
+  
+  .book-button:disabled {
+    background-color: #9ca3af; /* disabled:bg-gray-400 */
+    cursor: not-allowed; /* disabled:cursor-not-allowed */
+  }
+  
+  /* Responsive styles */
+@media (max-width: 1200px) {
+  .summary-container {
+    margin-top: 40px; 
+  } 
+}
+
+  @media (max-width: 780px) {
+    .seat-button {
+      height: 40px;
+    }
+    .seat-price {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 580px) {
+    .seat-button {
+      height: 30px;
+    }
+    .seat-name {
+      font-size: 10px;
+    }
+  }
+  

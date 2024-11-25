@@ -1,0 +1,76 @@
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('../../assets/images/bg_login.png') no-repeat;
+    background-size: cover;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.login-card {
+    background-color: #26313c;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    border-radius: 0.75rem;
+    width: 24rem;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.logo-login {
+    width: 150px;
+    height: 40px;
+}
+
+.login-input-field {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid #4a5568;
+    background-color: #303642;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.login-input-field:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.5);
+}
+
+.login-button {
+    width: 100%;
+    background-color: #f97316;
+    color: white;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #ea580c;
+}
+
+.social-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.google-button {
+    background-color: #1877f2;
+}
+
+.facebook-button {
+    background-color: #1877f2;
+}
