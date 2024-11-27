@@ -3,15 +3,15 @@ import { MdEdit, MdDelete } from "react-icons/md";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import {
-  getUsers,
+  getAllUser,
   addUser,
   updateUser,
   deleteUser,
 } from "../../../api/apiUser";
 import "./user.css";
-import AddUser from "../modal-user/AddUser";
-import EditUser from "../modal-user/EditUser";
-import DeleteUser from "../modal-user/DeleteUser";
+import AddUser from "../modal-admin/AddUser";
+import EditUser from "../modal-admin/EditUser";
+import DeleteUser from "../modal-admin/DeleteUser";
 
 const User = () => {
   const [users, setUsers] = useState([]);
@@ -19,6 +19,8 @@ const User = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchAllUsers();
@@ -26,41 +28,55 @@ const User = () => {
 
   const fetchAllUsers = async () => {
     try {
-      const data = await getUsers();
+      setError(null);
+      const data = await getAllUser();
       setUsers(data.result);
-      console.log(data.result);
+      setLoading(false);
     } catch (error) {
-      console.error("Error fetching users:", error);
+      setError(error.message);
     }
   };
 
   const handleAddUser = async (newUser) => {
     try {
+      setError(null);
       await addUser(newUser);
       fetchAllUsers();
+      alert("Successfully!");
     } catch (error) {
-      console.error("Error adding user:", error);
+      setError(error.message);
+      alert(error.message);
     }
   };
 
   const handleUpdateUser = async (id, updatedUser) => {
     try {
+      setError(null);
       await updateUser(id, updatedUser);
       fetchAllUsers();
+      alert("Successfully!");
     } catch (error) {
-      console.error("Error updating user:", error);
+      setError(error.message);
+      alert(error.message);
     }
   };
 
   const handleDeleteUser = async (id) => {
     try {
+      setError(null);
       await deleteUser(id);
       fetchAllUsers();
+      alert("Successfully!");
     } catch (error) {
-      console.error("Error deleting user:", error);
+      setError(error.message);
+      alert(error.message);
     }
   };
 
+  if (loading) {
+    return <div>Đang tải dữ liệu...</div>;
+  }
+  
   return (
     <div className="user-container">
       <div className="row">

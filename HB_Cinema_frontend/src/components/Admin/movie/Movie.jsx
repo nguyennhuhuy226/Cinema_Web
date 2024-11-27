@@ -1,120 +1,94 @@
 import React, { useState, useEffect } from "react";
-import { getToken } from "../../../api/localStorage";
-import './movie.css';
-import DeleteMovie from "../modal-movie/DeleteMovie";
-import AddMovie from "../modal-movie/AddMovie";
-import EditMovie from "../modal-movie/EditMovie";
+import "./movie.css";
+import DeleteMovie from "../modal-admin/DeleteMovie";
+import AddMovie from "../modal-admin/AddMovie";
+import EditMovie from "../modal-admin/EditMovie";
+import { MdCalendarMonth, MdDelete, MdEdit } from "react-icons/md";
+import AddScheduleByMovie from "../modal-admin/AddScheduleByMovie";
+import { addScheduleByMovie } from "../../../api/apiSchedule";
+import {
+  addMovie,
+  deleteMovie,
+  getAllMovie,
+  updateMovie,
+} from "../../../api/apiMovie";
 
 const Movie = () => {
   const [movies, setMovies] = useState([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isAddScheduleByMovie, setIsScheduleByMovie] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchMovies();
+    fetchAllMovie();
   }, []);
 
-  const API_URL = "http://localhost:8081/identity/movies";
-
-  const fetchMovies = async () => {
+  const fetchAllMovie = async () => {
     try {
-      const token = getToken();
-      const response = await fetch(API_URL, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        const errorMessage = await response.text();
-        throw new Error(
-          `Ko thể lấy movie: ${response.status} - ${errorMessage}`
-        );
-      }
-
-      const data = await response.json();
-      console.log(data);
-
-      if (Array.isArray(data.result)) {
-        setMovies(data.result);
-      } else {
-        console.error(
-          "Expected data.result to be an array, but got:",
-          data.result
-        );
-      }
+      setError(null);
+      const data = await getAllMovie();
+      setMovies(data.result);
+      setLoading(false);
     } catch (error) {
-      console.error("Error fetching movies:", error);
+      setError(error.message);
     }
   };
 
-  const addMovie = async (movies) => {
+  const handleAddMovie = async (movie) => {
     try {
-      const token = getToken();
-      const response = await fetch(`${API_URL}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(movies),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to add movie");
-      }
-      const newMovie = await response.json();
-      setMovies((prevMovies) => [...prevMovies, newMovie]);
-      await fetchMovies();
+      setError(null);
+      await addMovie(movie);
+      fetchAllMovie();
+      alert("Successfully!");
     } catch (error) {
-      console.error("Error adding movie:", error);
+      setError(error.message);
+      alert(error.message);
     }
   };
 
-  const updateMovie = async (id, updatedMovie) => {
+  const handleUpdateMovie = async (id, updatedMovie) => {
     try {
-      const token = getToken();
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(updatedMovie),
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to update Movie");
-      }
-      const updatedData = await response.json();
-      setMovies((prevMovies) =>
-        prevMovies.map((movie) => (movie.id === id ? updatedData : movie))
-      );
-      await fetchMovies();
+      setError(null);
+      await updateMovie(id, updatedMovie);
+      fetchAllMovie();
+      alert("Successfully!");
     } catch (error) {
-      console.error("Error updating movie:", error);
+      setError(error.message);
+      alert(error.message);
     }
   };
 
-  const deleteMovie = async (id) => {
+  const handleDeleteMovie = async (id) => {
     try {
-      const token = getToken();
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error("Failed to delete Movie");
-      }
-      setMovies((prevMovies) => prevMovies.filter((movie) => movie.id !== id));
-      await fetchMovies();
+      setError(null);
+      await deleteMovie(id);
+
+      fetchAllMovie();
+      alert("Successfully!");
     } catch (error) {
-      console.error("Error deleting Movie:", error);
+      setError(error.message);
+      alert(error.message);
     }
   };
+
+  const handleAddScheduleByMovie = async (id, newSchedule) => {
+    try {
+      setError(null);
+      await addScheduleByMovie(id, newSchedule);
+      alert("Successfully!");
+    } catch (error) {
+      setError(error.message);
+      alert(error.message);
+    }
+  };
+
+  if (loading) {
+    return <div>Đang tải dữ liệu...</div>;
+  }
 
   return (
     <div className="movie-container">
@@ -161,7 +135,7 @@ const Movie = () => {
                         setIsEditModalOpen(true);
                       }}
                     >
-                      <span className="edit-icon"></span>
+                      <MdEdit />
                     </button>
                     <button
                       className="delete-button"
@@ -170,7 +144,16 @@ const Movie = () => {
                         setIsDeleteModalOpen(true);
                       }}
                     >
-                      <span className="delete-icon"></span>
+                      <MdDelete />
+                    </button>
+                    <button
+                      className="schedule-button"
+                      onClick={() => {
+                        setSelectedMovie(movie);
+                        setIsScheduleByMovie(true);
+                      }}
+                    >
+                      <MdCalendarMonth />
                     </button>
                   </td>
                 </tr>
@@ -184,7 +167,7 @@ const Movie = () => {
         <AddMovie
           onClose={() => setIsAddModalOpen(false)}
           onSave={(newMovie) => {
-            addMovie(newMovie);
+            handleAddMovie(newMovie);
             setIsAddModalOpen(false);
           }}
         />
@@ -194,7 +177,7 @@ const Movie = () => {
           movie={selectedMovie}
           onClose={() => setIsEditModalOpen(false)}
           onSave={(updatedMovie) => {
-            updateMovie(selectedMovie.id, updatedMovie);
+            handleUpdateMovie(selectedMovie.id, updatedMovie);
             setIsEditModalOpen(false);
           }}
         />
@@ -203,8 +186,18 @@ const Movie = () => {
         <DeleteMovie
           onClose={() => setIsDeleteModalOpen(false)}
           onConfirm={() => {
-            deleteMovie(selectedMovie.id);
+            handleDeleteMovie(selectedMovie.id);
             setIsDeleteModalOpen(false);
+          }}
+        />
+      )}
+
+      {isAddScheduleByMovie && (
+        <AddScheduleByMovie
+          onClose={() => setIsScheduleByMovie(false)}
+          onSave={(newSchedule) => {
+            handleAddScheduleByMovie(selectedMovie.id, newSchedule);
+            setIsScheduleByMovie(false);
           }}
         />
       )}

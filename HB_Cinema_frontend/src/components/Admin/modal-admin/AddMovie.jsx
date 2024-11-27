@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import './modal.css';
 
 const AddMovie = ({ onClose, onSave }) => {
   const [formData, setFormData] = useState({
@@ -17,64 +18,24 @@ const AddMovie = ({ onClose, onSave }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white rounded-lg p-6 w-full max-w-xl">
-        <h2 className="text-xl font-semibold mb-4 text-center">Add New Movie</h2>
-        <div className="grid grid-cols-2 gap-4">
+    <div className="modal-overlay">
+      <div className="modal-container movie-modal">
+        <h2 className="modal-header">Add New Movie</h2>
+        <div className="grid-cols-2 movie-modal-grid">
           <input
             type="text"
             name="title"
             placeholder="Title"
             value={formData.title}
             onChange={handleChange}
-            className="border w-full p-2 rounded"
-          />
-          <input
-            type="text"
-            name="image"
-            placeholder="Image URL"
-            value={formData.image}
-            onChange={handleChange}
-            className="border w-full p-2 rounded"
-          />
-          <input
-            type="datetime-local"
-            name="releaseDate"
-            placeholder="Release Date"
-            value={formData.releaseDate}
-            onChange={handleChange}
-            className="border w-full p-2 rounded"
-          />
-          <input
-            type="text"
-            name="duration"
-            placeholder="Duration"
-            value={formData.duration}
-            onChange={handleChange}
-            className="border w-full p-2 rounded"
+            className="input-field col-span-2"
           />
           <textarea
             name="overView"
             placeholder="Overview"
             value={formData.overView}
             onChange={handleChange}
-            className="border w-full p-2 rounded col-span-2"
-          />
-          <input
-            type="number"
-            name="rating"
-            placeholder="Rating"
-            value={formData.rating}
-            onChange={handleChange}
-            className="border w-full p-2 rounded"
-          />
-          <input
-            type="text"
-            name="trailer"
-            placeholder="Trailer URL"
-            value={formData.trailer}
-            onChange={handleChange}
-            className="border w-full p-2 rounded"
+            className="input-field movie-modal-textarea"
           />
           <input
             type="text"
@@ -82,16 +43,55 @@ const AddMovie = ({ onClose, onSave }) => {
             placeholder="Language"
             value={formData.language}
             onChange={handleChange}
-            className="border w-full p-2 rounded"
+            className="input-field"
+          />
+          <input
+            type="number"
+            name="rating"
+            placeholder="Rating"
+            value={formData.rating}
+            onChange={handleChange}
+            className="input-field"
+          />
+          <input
+            type="datetime-local"
+            name="releaseDate"
+            placeholder="Release Date"
+            value={formData.releaseDate}
+            onChange={handleChange}
+            className="input-field"
+          />
+          <input
+            type="text"
+            name="duration"
+            placeholder="Duration"
+            value={formData.duration}
+            onChange={handleChange}
+            className="input-field"
+          />
+          <input
+            type="text"
+            name="image"
+            placeholder="Image URL"
+            value={formData.image}
+            onChange={handleChange}
+            className="input-field"
+          />
+          <input
+            type="text"
+            name="trailer"
+            placeholder="Trailer URL"
+            value={formData.trailer}
+            onChange={handleChange}
+            className="input-field"
           />
         </div>
-
-        <div className="flex justify-end mt-4 space-x-2">
-          <button className="bg-gray-300 px-4 py-2 rounded" onClick={onClose}>
+        <div className="modal-actions">
+          <button className="button-base button-cancel" onClick={onClose}>
             Cancel
           </button>
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="button-base button-save"
             onClick={() => onSave(formData)}
           >
             Save

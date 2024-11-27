@@ -1,16 +1,16 @@
-import './modal.css'; // Import CSS file
+import './modal.css';
 
 const DeleteUser = ({ onClose, onConfirm }) => (
   <div className="modal-overlay">
     <div className="modal-container">
       <h2 className="modal-header">Delete User</h2>
-      <p>Are you sure you want to delete this user?</p>
-      <div className="flex justify-end mt-4 space-x-2">
-        <button className="button-cancel" onClick={onClose}>
+      <p className="text-center mb-4">Are you sure you want to delete this user?</p>
+      <div className="modal-actions">
+        <button className="button-base button-cancel" onClick={onClose}>
           Cancel
         </button>
         <button
-          className="button-delete"
+          className="button-base button-delete"
           onClick={onConfirm}
         >
           Delete

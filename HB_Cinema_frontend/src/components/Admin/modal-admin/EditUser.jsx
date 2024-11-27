@@ -1,5 +1,5 @@
 import { useState } from "react";
-import './modal.css'; // Import CSS file
+import './modal.css';
 
 const EditUser = ({ title, user, onClose, onSave }) => {
   const [formData, setFormData] = useState(user);
@@ -12,14 +12,14 @@ const EditUser = ({ title, user, onClose, onSave }) => {
     <div className="modal-overlay">
       <div className="modal-container">
         <h2 className="modal-header">{title}</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid-cols-2">
           <input
             type="text"
             name="username"
             placeholder="Username"
             value={formData.username}
             onChange={handleChange}
-            className="input-field"
+            className="input-field col-span-2"
           />
           <input
             type="text"
@@ -69,13 +69,12 @@ const EditUser = ({ title, user, onClose, onSave }) => {
             className="input-field"
           />
         </div>
-
-        <div className="flex justify-end mt-4 space-x-2">
-          <button className="button-cancel" onClick={onClose}>
+        <div className="modal-actions">
+          <button className="button-base button-cancel" onClick={onClose}>
             Cancel
           </button>
           <button
-            className="button-save"
+            className="button-base button-save"
             onClick={() => onSave(formData)}
           >
             Save

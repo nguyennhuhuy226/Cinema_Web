@@ -2,22 +2,36 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { getSeat } from "../../../api/apiSeat";
 import "./selectedSeat.css";
+import { createTicket } from "../../../api/apiTicket";
 
 const SelectedSeat = () => {
   const { id } = useParams();
   const [seats, setSeats] = useState([]);
+  const [combos, setCombos] = useState([
+    { name: "Popcorn Sweet - Pepsi", price: 50 },
+    { name: "Popcorn Sweet - Coca", price: 50 },
+    { name: "Couple Sweet - Crush", price: 90 },
+  ]);
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedCombos, setSelectedCombos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const scheduleId = 94; // Cố định hoặc lấy scheduleId từ dữ liệu động
 
   useEffect(() => {
-    const fetchSeat = async () => {
-      const data = await getSeat(id);
-      const seats = data.result;
-      setSeats(seats);
-      console.log(data.result);
-    };
-
     fetchSeat();
   }, [id]);
+
+  const fetchSeat = async () => {
+    try {
+      setError(null);
+      const data = await getSeat(id);
+      setSeats(data.result);
+      setLoading(false);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   const handleSeatClick = (seat) => {
     if (seat.booked) return;
@@ -33,18 +47,20 @@ const SelectedSeat = () => {
   };
 
   const totalPrice = useMemo(() => {
-    return selectedSeats.reduce((sum, seat) => sum + seat.price, 0);
-  }, [selectedSeats]);
+    const seatsTotal = selectedSeats.reduce((sum, seat) => sum + seat.price, 0);
+    const combosTotal = selectedCombos.reduce(
+      (sum, combo) => sum + combo.price * combo.quantity,
+      0
+    );
+    return seatsTotal + combosTotal;
+  }, [selectedSeats, selectedCombos]);
 
   const getSeatClassName = (seat) => {
     const baseClasses = ["seat-button"];
-
-    // Thêm class dựa vào loại ghế (đơn/đôi)
     baseClasses.push(
       seat.seatType === "Couple" ? "seat-couple" : "seat-single"
     );
 
-    // Thêm class dựa vào trạng thái ghế
     if (seat.booked) {
       baseClasses.push("seat-booked");
     } else if (selectedSeats.find((s) => s.id === seat.id)) {
@@ -60,15 +76,53 @@ const SelectedSeat = () => {
     return baseClasses.join(" ");
   };
 
+  // Tạo dữ liệu yêu cầu đặt vé
+  const generateTicketRequests = () => {
+    return selectedSeats.map((seat) => ({
+      seatId: seat.id,
+      scheduleId: scheduleId, // Sử dụng scheduleId ở đây
+    }));
+  };
+
+  // Tạo dữ liệu về các combo đã chọn
+  const generateComboData = () => {
+    return selectedCombos.map((combo) => ({
+      name: combo.name,
+      price: combo.price * combo.quantity,
+    }));
+  };
+
+  // Xử lý đặt vé
+  const handleBookTickets = async () => {
+    const ticketRequests = generateTicketRequests();
+    const combosData = generateComboData();
+    const bookingData = {
+      ticketRequests,
+      combos: combosData,
+    };
+    console.log("Dữ liệu đặt vé:", bookingData);
+    try {
+      setError(null);
+      const data = await createTicket(bookingData);
+      alert("Successfully!");
+      console.log(data);
+    } catch (error) {
+      setError(error.message);
+      alert(error.message);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="container row seat-container">
-      <div className="col-xl-7">
-        {/* Screen */}
+      <div className="col-xl-6">
         <div className="screen">
           <div className="screen-display">Screen</div>
         </div>
 
-        {/* Seats Grid */}
         <div className="seats-grid">
           {seats.map((seat) => (
             <button
@@ -83,19 +137,18 @@ const SelectedSeat = () => {
           ))}
         </div>
 
-        {/* Legend */}
         <div className="seat-legend">
           <div className="legend-item">
             <div className="legend-color seat-standard"></div>
-            <span>Standard</span>
+            <span>Standard Seat</span>
           </div>
           <div className="legend-item">
             <div className="legend-color seat-vip"></div>
-            <span>VIP</span>
+            <span>VIP Seat</span>
           </div>
           <div className="legend-item">
             <div className="legend-color seat-couple"></div>
-            <span>Couple VIP</span>
+            <span>Couple Seat</span>
           </div>
           <div className="legend-item">
             <div className="legend-color seat-booked"></div>
@@ -107,17 +160,87 @@ const SelectedSeat = () => {
           </div>
         </div>
       </div>
-
+      <div className="space col-xl-1"></div>
       <div className="col-xl-5">
-        {/* Selected Seats Summary */}
+        <div className="combo-container">
+          <h3 className="font-medium mb-4">Chọn Combo</h3>
+          <div className="combo-grid">
+            {combos.map((combo, index) => (
+              <div key={index} className="combo-item">
+                <div className="combo-image">
+                  {/* Placeholder for image */}
+                  <img
+                    src={`/images/combo-${index + 1}.png`}
+                    alt={combo.name}
+                    className="combo-img"
+                  />
+                </div>
+                <div className="combo-info">
+                  <span className="combo-name">{combo.name}</span>
+                  <span className="combo-price">
+                    {combo.price.toLocaleString()}đ
+                  </span>
+                </div>
+                <div className="combo-controls">
+                  <button
+                    className="quantity-btn"
+                    onClick={() => {
+                      setSelectedCombos((prev) => {
+                        const existing = prev.find(
+                          (c) => c.name === combo.name
+                        );
+                        if (existing && existing.quantity > 0) {
+                          return prev
+                            .map((c) =>
+                              c.name === combo.name
+                                ? { ...c, quantity: c.quantity - 1 }
+                                : c
+                            )
+                            .filter((c) => c.quantity > 0);
+                        }
+                        return prev;
+                      });
+                    }}
+                  >
+                    -
+                  </button>
+                  <span className="quantity-display">
+                    {selectedCombos.find((c) => c.name === combo.name)
+                      ?.quantity || 0}
+                  </span>
+                  <button
+                    className="quantity-btn"
+                    onClick={() => {
+                      setSelectedCombos((prev) => {
+                        const existing = prev.find(
+                          (c) => c.name === combo.name
+                        );
+                        if (existing) {
+                          return prev.map((c) =>
+                            c.name === combo.name
+                              ? { ...c, quantity: c.quantity + 1 }
+                              : c
+                          );
+                        }
+                        return [...prev, { ...combo, quantity: 1 }];
+                      });
+                    }}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
         <div className="summary-container">
           <div className="summary-content">
             <div>
-              <h3 className="font-medium">Selected Seats:</h3>
+              <h3 className="font-medium">Selected Seat:</h3>
               <p className="text-sm">
                 {selectedSeats.length > 0
                   ? selectedSeats.map((seat) => seat.name).join(", ")
-                  : "No seats selected"}
+                  : "Chưa chọn ghế"}
               </p>
             </div>
             <div className="text-right">
@@ -128,9 +251,7 @@ const SelectedSeat = () => {
           <button
             className="book-button"
             disabled={selectedSeats.length === 0}
-            onClick={() => {
-              console.log("Booking seats:", selectedSeats);
-            }}
+            onClick={handleBookTickets}
           >
             Book Tickets
           </button>

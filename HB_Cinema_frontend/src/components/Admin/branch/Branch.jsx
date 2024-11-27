@@ -1,87 +1,72 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getToken } from "../../../api/localStorage";
-import "./branch.css";
-
-const BASE_URL = "http://localhost:8081/identity/branch";
+import { getAllBranch } from "../../../api/apiBranch";
+import "./branch.css"; // Import CSS tách riêng
 
 const Branch = () => {
   const [branches, setBranches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Hook để điều hướng
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const token = getToken();
-
-    fetch(`${BASE_URL}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setBranches(data.result);
-        setLoading(false);
-        console.log(data.result);
-      })
-      .catch((error) => {
-        console.error("Error fetching branches:", error);
-        setError("Không thể tải dữ liệu");
-        setLoading(false);
-      });
+    fecthAllBranch();
   }, []);
 
+  const fecthAllBranch = async () => {
+    try {
+      setError(null);
+      const data = await getAllBranch();
+      setBranches(data.result);
+      setLoading(false);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   const handleViewRooms = (branchId) => {
-    navigate(`/rooms/${branchId}`); // Điều hướng tới trang RoomList của chi nhánh cụ thể
+    navigate(`/rooms/${branchId}`);
   };
 
   if (loading) {
     return <div>Đang tải dữ liệu...</div>;
   }
 
-  if (error) {
-    return <div>{error}</div>;
-  }
-
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
+    <div className="branch-container">
       {branches.map((branch) => (
         <div
           key={branch.id}
-          className="bg-white shadow-md rounded-lg overflow-hidden custom_card"
+          className="branch-card"
         >
           <img
             src={branch.image}
             alt={branch.name}
-            className="w-full h-48 object-cover custom_image"
+            className="branch-image"
           />
-          <div className="p-4">
-            <h2 className="text-lg font-semibold mb-2">{branch.name}</h2>
-            <p className="mb-2">Số điện thoại: {branch.phoneNumber}</p>
+          <div className="branch-content">
+            <h2 className="branch-name">{branch.name}</h2>
+            <p className="branch-phone">Số điện thoại: {branch.phoneNumber}</p>
+            <div className="col">
             <button
-              onClick={() => handleViewRooms(branch.id)} // Khi nhấn sẽ chuyển sang trang RoomList của branch này
-              className="custom_buton bg-blue-400 text-white py-2 px-4 transition focus:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
+              onClick={() => handleViewRooms(branch.id)}
+              className="view-rooms-button"
             >
               Xem phòng
             </button>
+            <button className="view-address-button">
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
                 branch.address
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="block mt-2 text-red-500 hover:underline margin_linkMap"
+              className="view-address-link"
             >
               Xem địa chỉ
             </a>
+            </button>
+            </div>
           </div>
         </div>
       ))}

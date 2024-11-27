@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Banner from "../../components/User/banner/Banner";
 import MovieList from "../../components/User/movie-list/MovieList";
 import Footer from "../../components/User/footer/Footer";
-import { getMovies } from "../../api/apiMovie";
+import { getAllMovie } from "../../api/apiMovie";
 
 
 const Home = () => {
@@ -12,12 +12,12 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchMovie();
+    fetchAllMovie();
   }, []);
 
-  const fetchMovie = async () => {
+  const fetchAllMovie = async () => {
     try {
-      const data = await getMovies();
+      const data = await getAllMovie();
     const movie = data.result;
     setMovie(movie);
     } catch (error) {
