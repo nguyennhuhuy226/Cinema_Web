@@ -4,11 +4,13 @@ import { getMovieSchedule } from "../../../api/apiSchedule";
 import "./movieSchedule.css";
 import branchHB  from "../../../assets/images/branchHB.png";
 import roomHB from "../../../assets/images/roomHB.png"
+import { getToken } from "../../../api/localStorage";
 
 
 const MovieSchedule = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const token = getToken();
   const [movieSchedule, setMovieSchedule] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedBranch, setSelectedBranch] = useState("");
@@ -94,7 +96,11 @@ const MovieSchedule = () => {
   }, [selectedDate, selectedBranch, rooms]);
 
   const handleShowtimeClick = (showtime) => {
-    navigate(`/seats/schedule/${showtime.id}`);
+    if (!token) {
+      navigate("/login"); // Chuyển hướng tới trang đăng nhập nếu chưa đăng nhập
+    } else {
+      navigate(`/seats/schedule/${showtime.id}`);
+    }
   };
 
 

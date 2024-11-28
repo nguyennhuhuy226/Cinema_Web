@@ -11,6 +11,7 @@ export const login = async (username, password) => {
     setToken(token);
     return response.data;
   } catch (error) {
-    console.log(error)
+    console.error("API Error:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || "Failed to login");
   }
 };

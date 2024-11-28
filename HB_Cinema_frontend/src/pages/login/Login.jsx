@@ -11,6 +11,8 @@ export default function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  
 
   useEffect(() => {
     const token = getToken();
@@ -31,13 +33,25 @@ export default function Login() {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    // Validation for empty username
+  if (!username.trim()) {
+    setError("Username cannot be empty");
+    return;
+  }
+  // Validation for password length
+  if (password.length < 5) {
+    setError("Password must be at least 8 characters long");
+    return;
+  }
     try {
+      setError(null);
       const data = await login(username, password);
-      console.log(data);
+      console.log(data);  
       const token = getToken();
       handleTokenRedirect(token);
     } catch (error) {
-      console.log(error);
+      console.error("Error login:", error.message);
+      setError(error.message);
     }
   };
 
@@ -74,6 +88,7 @@ export default function Login() {
               Forgot password?
             </a>
           </div>
+          {error && <p className="text-red-500 text-sm">{error}</p>} 
           <button type="submit" className="login-button">
             LOGIN
           </button>

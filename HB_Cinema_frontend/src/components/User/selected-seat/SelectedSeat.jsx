@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getSeat } from "../../../api/apiSeat";
 import "./selectedSeat.css";
 import { createTicket } from "../../../api/apiTicket";
+import BillModal from "../modal-bill/BillModal";
 
 const SelectedSeat = () => {
   const { id } = useParams();
@@ -14,9 +15,11 @@ const SelectedSeat = () => {
   ]);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [selectedCombos, setSelectedCombos] = useState([]);
+  const [isBillModal, setIsBillModal] = useState(false);
+  const [bill, setBill] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const scheduleId = 94; // Cố định hoặc lấy scheduleId từ dữ liệu động
+  const scheduleId = id;
 
   useEffect(() => {
     fetchSeat();
@@ -104,8 +107,9 @@ const SelectedSeat = () => {
     try {
       setError(null);
       const data = await createTicket(bookingData);
-      alert("Successfully!");
       console.log(data);
+      setBill(data.result);
+      setIsBillModal(true);
     } catch (error) {
       setError(error.message);
       alert(error.message);
@@ -257,6 +261,12 @@ const SelectedSeat = () => {
           </button>
         </div>
       </div>
+      {isBillModal && (
+        <BillModal
+          bill={bill} // Truyền dữ liệu hóa đơn
+          onClose={() => setIsBillModal(false)} // Đóng modal khi bấm nút Đóng
+        />
+      )}
     </div>
   );
 };
