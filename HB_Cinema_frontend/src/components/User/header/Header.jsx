@@ -14,6 +14,11 @@ const Header = ({ data, onLogout }) => {
 
   const avatar = data?.username ? data.username.charAt(0).toUpperCase() : "";
 
+  const handleLogin = () => {
+    removeToken();
+    navigate("/login");
+  }
+  
   const handleLogout = () => {
     removeToken();
     setShowUserInfo(false);
@@ -31,7 +36,7 @@ const Header = ({ data, onLogout }) => {
       <div>
         <div className="header">
           <NavLink to="/" className="logo">
-            <span>HBFLIX</span>
+            <span>HBCinema</span>
           </NavLink>
           <input type="checkbox" id="check" />
           <label htmlFor="check" className="icon">
@@ -45,9 +50,6 @@ const Header = ({ data, onLogout }) => {
               </NavLink>
               <NavLink to="/movie" style={{ "--i": 1 }}>
                 Movie
-              </NavLink>
-              <NavLink to="/showtime" style={{ "--i": 1 }}>
-                Showtime
               </NavLink>
               <NavLink to="/toprate" style={{ "--i": 2 }}>
                 Top Rate
@@ -88,8 +90,8 @@ const Header = ({ data, onLogout }) => {
                 )}
               </div>
             ) : (
-              <button className="login__btn">
-                <NavLink to="/login">Login</NavLink>
+              <button className="login__btn" onClick={handleLogin}>
+                Login
               </button>
             )}
           </div>

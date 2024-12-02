@@ -27,7 +27,7 @@ const BillModal = ({ bill, onClose }) => {
             <div className="bill-info">
               <div className="row">
                 <p className="col-auto">
-                  Giờ chiếu
+                  Time
                   <br />
                   <strong>
                     {new Date(
@@ -36,7 +36,7 @@ const BillModal = ({ bill, onClose }) => {
                   </strong>
                 </p>
                 <p className="col-auto">
-                  Ngày chiếu
+                  Date
                   <br />
                   <strong>
                     {new Date(
@@ -47,14 +47,14 @@ const BillModal = ({ bill, onClose }) => {
               </div>
               <div className="row">
                 <p className="col-auto">
-                  Rạp
+                  Theater
                   <br />
                   <strong>{tickets[0].scheduleDetails.branch.name}</strong><br/>
                   {tickets[0].scheduleDetails.branch.address}
                   <br />
                 </p>
                 <p className="col-auto">
-                  Phòng
+                  Room
                   <br />
                   <strong>{tickets[0].scheduleDetails.room.name}</strong>
                 </p>
@@ -62,7 +62,7 @@ const BillModal = ({ bill, onClose }) => {
               
               <div className="row">
                 <p className="col-auto">
-                  Ghế
+                  Seat
                   <br />
                   <strong>
                     {tickets.map((ticket) => ticket.seatName).join(", ")}
@@ -85,7 +85,7 @@ const BillModal = ({ bill, onClose }) => {
             </div>
             <div className="row total-row">
               <p className="total-label col-auto">
-                <strong>Tổng tiền:</strong>
+                <strong>Total Price</strong>
               </p>
               <p className="col-auto">
                 <strong>{totalAmount.toLocaleString()}$</strong>
@@ -98,9 +98,9 @@ const BillModal = ({ bill, onClose }) => {
             <img
               src={tickets[0].qrImageURL}
               alt="QR Code"
-              className="qr-code"
+              className="bill-qr-text"
             />
-            <p className="qr-text">Quét mã QR để thanh toán</p>
+            <p className="qr-text">Scan QR code to pay</p>
           </div>
         </div>
       </div>

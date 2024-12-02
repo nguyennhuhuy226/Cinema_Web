@@ -4,6 +4,9 @@ import Banner from "../../components/User/banner/Banner";
 import MovieList from "../../components/User/movie-list/MovieList";
 import Footer from "../../components/User/footer/Footer";
 import { getAllMovie } from "../../api/apiMovie";
+import Blog from "../../components/User/blog/Blog";
+import MovieCard from "../../components/User/movie-card/MovieCard";
+import TopMovie from "../../components/User/top-movie/TopMovie";
 
 
 const Home = () => {
@@ -40,9 +43,13 @@ const Home = () => {
           onMovieClick={handleMovieClick}
         />
       </div>
-      <div>
+     
+        <Blog />
+  
+     
+   
         <Footer />
-      </div>
+      x
     </div>
   );
 };

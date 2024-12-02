@@ -15,6 +15,5 @@ public interface ScheduleSeatRepository extends JpaRepository<ScheduleSeat, Inte
     Optional<ScheduleSeat> findByScheduleAndSeat(Schedule schedule, Seat seat);
     // Truy vấn tất cả ghế trong một phòng và có trạng thái booked = true
     List<ScheduleSeat> findBySchedule_Room_Id(int roomId);
-
 }
 

@@ -50,11 +50,12 @@ public class UserController {
         // Trả về ApiResponse chứa dữ liệu của người dùng
         return ApiResponse.<UserResponse>builder()
                 .result(userResponse)
+                .message("GetUser successfully")
                 .build();
     }
     @GetMapping("/myInfo")
     ApiResponse<UserResponse> getMyInfo() {
-        UserResponse userResponse = userService.getMyInfo(); // Lấy thông tin user hiện tại
+        UserResponse userResponse = userService.getMyInfo(); // Lấy thông tin user hiện tại1
         return ApiResponse.<UserResponse>builder()
                 .result(userResponse) // Đính kèm kết quả vào ApiResponse
                 .build();
@@ -65,6 +66,7 @@ public class UserController {
         // Trả về ApiResponse chứa dữ liệu của người dùng
         return ApiResponse.<UserResponse>builder()
                 .result(userResponse)
+                .message("Update successfully")
                 .build();
     }
 @DeleteMapping("/{userId}")
@@ -72,14 +74,21 @@ String deleteUser(@PathVariable String userId){
          userService.deleteUser(userId);
         return  "User has been deleted" ;
 }
-    // Đổi mật khẩu cho người dùng chỉ cho phép ADMIN
+
     @PutMapping("/{userId}/change-password")
-     ApiResponse<String> changePassword(
+    public ApiResponse<String> changePassword(
             @PathVariable @Valid String userId,
-            @RequestBody @Valid PasswordChangeRequest request) {
-        userService.changePasswordAsAdmin(userId, request.getNewPassword());
-        return ApiResponse.<String>builder()
-                .result("Password changed successfully")
-                .build();
+            @RequestBody @Valid PasswordChangeRequest passwordChangeRequest) {
+        try {
+            userService.changePasswordForUser(userId, passwordChangeRequest);
+            return ApiResponse.<String>builder()
+                    .result("Password changed successfully")
+                    .build();
+        } catch (RuntimeException ex) {
+            return ApiResponse.<String>builder()
+                    .message(ex.getMessage())
+                    .build();
+        }
     }
+
 }

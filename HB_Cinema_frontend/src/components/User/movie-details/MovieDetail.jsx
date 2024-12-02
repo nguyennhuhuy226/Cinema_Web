@@ -10,19 +10,34 @@ import {
 } from "react-icons/fa";
 import "./moviedetail.css";
 import poster from "../../../assets/images/poster.png";
+import YouTubeModal from "../youtube-modal/YouTubeModal";
 
 const MovieDetail = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [videoUrl, setVideoUrl] = useState(""); // State để lưu URL video
 
+  const handleOpenModal = (url) => {
+    setVideoUrl(url); // Cập nhật videoUrl khi mở modal
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+
+  // Nếu không có id từ URL, tạo ID ngẫu nhiên
+  const movieId = id || Math.floor(Math.random() * 10); // Giả sử có 1000 phim để random
   useEffect(() => {
     fetchMovieDetail();
-  }, [id]);
+  }, [movieId]);
 
   const fetchMovieDetail = async () => {
     try {
-      const data = await getMovieById(id);
+      const data = await getMovieById(movieId);
       setMovie(data.result);
       setLoading(false);
     } catch (error) {
@@ -76,7 +91,7 @@ const MovieDetail = () => {
             <p>{movie.overView}</p>
           </div>
           <div className="movie-actions">
-            <a
+            <button onClick={() => handleOpenModal(movie.trailer)}
               href={movie.trailer}
               className="trailer-button"
               target="_blank"
@@ -84,21 +99,23 @@ const MovieDetail = () => {
             >
               <FaPlayCircle className="trailer-icon" />
               Watch Trailer
-            </a>
+            </button>
           </div>
         </div>
         <div className="movie-advertisement">
-          <h3 className="ad-title">30% Off Movie Tickets This Week!</h3>
           <img
             src={poster}
             alt="advertisement"
             className="advertisement-image"
           />
-          <a href="/book-tickets" className="ad-button">
-            Book Tickets
-          </a>
+          <h3 className="ad-title">30% Off Movie Tickets This Week!</h3>
         </div>
       </div>
+      <YouTubeModal
+        videoUrl={videoUrl}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 };

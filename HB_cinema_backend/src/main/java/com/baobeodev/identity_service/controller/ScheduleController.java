@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class  ScheduleController {
-    private final ScheduleService scheduleService;
+     ScheduleService scheduleService;
     @PostMapping
     public ApiResponse<ScheduleResponse> createSchedule(@RequestBody ScheduleRequest scheduleRequest) {
         ScheduleResponse scheduleResponse = scheduleService
@@ -44,6 +44,14 @@ public class  ScheduleController {
         return ApiResponse.<List<ScheduleResponse>>builder()
                 .result(schedules)
                 .message("Schedules retrieved successfully")
+                .build();
+    }
+    @GetMapping()
+    public ApiResponse<List<ScheduleResponse>> getAllSchedules() {
+        List<ScheduleResponse> schedules = scheduleService.getAllSchedules();
+        return ApiResponse.<List<ScheduleResponse>>builder()
+                .result(schedules)
+                .message("Fetch schedules successfully")
                 .build();
     }
     @PutMapping("/{id}")

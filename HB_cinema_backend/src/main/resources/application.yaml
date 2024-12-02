@@ -8,10 +8,23 @@ spring:
     url: "jdbc:mysql://localhost:3306/identity_service"
     username: root
     password: 
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ptatamde@gmail.com # Email gửi
+    password: fpjp rksv ckch jgbt # Mật khẩu hoặc App Password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 #để key ở đây để bảo mật, để người khác không lấy được chữ ký
 #  Khóa này sẽ được sử dụng để mã hóa và giải mã các JWT (JSON Web Tokens).

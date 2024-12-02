@@ -5,9 +5,9 @@ import Home from "../user-pages/Home";
 import Movie from "../user-pages/Movie";
 import MovieDetailPage from "../user-pages/MovieDetailPage";
 import SelectedSeatPage from "../user-pages/SelectedSeatPage";
-import ShowTime from "../user-pages/ShowTime";
 import TopRate from "../user-pages/TopRate";
 import { getMyInfo } from "../../api/apiUser";
+import ProfilePage from "../user-pages/ProfilePage";
 
 const User = () => {
   const [myInfo, setMyInfo] = useState({});
@@ -40,10 +40,10 @@ const User = () => {
           {/* Định nghĩa các route */}
           <Route path="/" element={<Home />} />
           <Route path="/movie" element={<Movie />} />
-          <Route path="/showtime" element={<ShowTime />} />
           <Route path="/toprate" element={<TopRate />} />
           <Route path="/movies/:id" element={<MovieDetailPage />} />
           <Route path="/seats/schedule/:id" element={<SelectedSeatPage />} />
+          <Route path="/profile*" element={<ProfilePage />} />
         </Routes>
       </div>
     </>

@@ -18,9 +18,7 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE , makeFinal = true)
 @Slf4j//cho ghi log
 public class SeatService {
-    SeatRepository seatRepository;
-    private final ScheduleSeatRepository scheduleSeatRepository;
-
+   ScheduleSeatRepository scheduleSeatRepository;
     public List<SeatResponse> getSeatsForSchedule(int scheduleId) {
         List<ScheduleSeat> scheduleSeats = scheduleSeatRepository.findByScheduleId(scheduleId);
         return scheduleSeats.stream()

@@ -99,12 +99,12 @@ public class ScheduleService {
     @PreAuthorize("hasRole('ADMIN')")
     public ScheduleResponse createSchedule(ScheduleRequest scheduleRequest) {
         Room room = roomRepository.findById(scheduleRequest.getRoomId())
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND ));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_ROOM ));
         if (!Objects.equals(room.getBranch().getId(), scheduleRequest.getBranchId())) {
             throw  new AppException(ErrorCode.NOT_FOUND_ROOM_IN_BRAND);
         }
         Movie movie = movieRepository.findById(scheduleRequest.getMovieId())
-                .orElseThrow(() ->new AppException(ErrorCode.NOT_FOUND));
+                .orElseThrow(() ->new AppException(ErrorCode.NOT_FOUND_MOVIE));
         Branch branch = branchRepository.findById(scheduleRequest.getBranchId())
                 .orElseThrow(() ->new AppException(ErrorCode.NOT_FOUND));
 
@@ -123,24 +123,29 @@ public class ScheduleService {
                 .map(scheduleMapper::toScheduleResponse)
                 .collect(Collectors.toList());
     }
+    public List<ScheduleResponse> getAllSchedules() {
+        return scheduleRepository.findAll().stream()
+                .map(scheduleMapper::toScheduleResponse)
+                .collect(Collectors.toList());
+    }
     @PreAuthorize("hasRole('ADMIN')")
     public ScheduleResponse updateSchedule(int id, ScheduleRequest scheduleRequest) {
         // Lấy Schedule cũ
         Schedule existingSchedule = scheduleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("loi"));
+                .orElseThrow(() -> new RuntimeException("No showtimes found"));
 //                        new AppException(ErrorCode.NOT_FOUND));
         // Lấy Room từ yêu cầu và kiểm tra chi nhánh
         Room room = roomRepository.findById(scheduleRequest.getRoomId())
-                .orElseThrow(() -> new RuntimeException("loi room"));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_ROOM ));
 
         if (!Objects.equals(room.getBranch().getId(), scheduleRequest.getBranchId())) {
             throw  new AppException(ErrorCode.NOT_FOUND_ROOM_IN_BRAND);
         }
         // Lấy Movie và Branch từ yêu cầu
         Movie movie = movieRepository.findById(scheduleRequest.getMovieId())
-                .orElseThrow(() -> new RuntimeException("loi phim"));
+                .orElseThrow(() ->new AppException(ErrorCode.NOT_FOUND_MOVIE));
         Branch branch = branchRepository.findById(scheduleRequest.getBranchId())
-                .orElseThrow(() -> new RuntimeException("loi branch"));
+                .orElseThrow(() ->new AppException(ErrorCode.NOT_FOUND_BRANCH));
         existingSchedule.setStartDateTime(scheduleRequest.getStartDateTime());
         existingSchedule.setPrice(scheduleRequest.getPrice());
         existingSchedule.setMovie(movie);
@@ -152,7 +157,7 @@ public class ScheduleService {
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteSchedule(int id) {
         Schedule schedule = scheduleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Schedule not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_SCHEDULE));
         scheduleRepository.delete(schedule);}
     // Chạy tự động mỗi giờ
     @Scheduled(fixedRate = 3600000) // 1 giờ = 3600000 ms
@@ -184,7 +189,7 @@ public class ScheduleService {
                 scheduleSeatRepository.save(scheduleSeat);
             });
             log.info("Seats updated successfully for room {}.", roomId);
-            throw new AppException(ErrorCode.NO_SCHEDULES_FOUND);
+            throw new AppException(ErrorCode.NO_SCHEDULES_GOING_FOUND);
         }
 
         // Kiểm tra nếu có lịch chiếu đang diễn ra

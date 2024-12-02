@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import Sidebar from "../../components/Admin/sidebar/Sidebar";
@@ -6,6 +7,8 @@ import Movie from "../../components/Admin/movie/Movie";
 import Branch from "../../components/Admin/branch/Branch";
 import User from "../../components/Admin/user/User";
 import Dashboard from "../../components/Admin/dashboard/Dashboard";
+import Room from "../../components/Admin/room/Room";
+import Schedule from "../../components/Admin/schedule/Schedule";
 
 const Admin = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -31,9 +34,8 @@ const Admin = () => {
 
       {/* Nội dung chính, bao gồm cả MenuBar */}
       <div
-        className={`flex flex-1 flex-col transition-all duration-300 ${
-          isSidebarOpen && !isSidebarOpenOnMobile ? "ml-[250px]" : ""
-        }`}
+        className={`flex flex-1 flex-col transition-all duration-300 ${isSidebarOpen && !isSidebarOpenOnMobile ? "ml-[250px]" : ""
+          }`}
       >
         {/* MenuBar luôn hiển thị phía trên */}
         <div className="h-[60px] sticky top-0 z-20 flex items-center justify-between p-4 shadow-md bg-white">
@@ -42,14 +44,17 @@ const Admin = () => {
               <FiMenu />
             </button>
             <nav className="ml-4 space-x-4">
-              <Link to="/admin/dashboard" className="hover:text-blue-500">
+              {/* <Link to="/admin/dashboard" className="hover:text-blue-500">
                 Dashboard
-              </Link>
+              </Link> */}
               <Link to="/admin/user" className="hover:text-blue-500">
                 Customer
               </Link>
               <Link to="/admin/movie" className="hover:text-blue-500">
                 Movie
+              </Link>
+              <Link to="/admin/movie" className="hover:text-blue-500">
+                Schedule
               </Link>
             </nav>
           </div>
@@ -78,6 +83,8 @@ const Admin = () => {
             <Route path="/user" element={<User />} />
             <Route path="/movie" element={<Movie />} />
             <Route path="/branch" element={<Branch />} />
+            <Route path="/branch/rooms/:id" element={<Room />} />
+            <Route path="/schedule" element={<Schedule />} />
           </Routes>
         </div>
       </div>

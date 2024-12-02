@@ -25,7 +25,7 @@ const Branch = () => {
   };
 
   const handleViewRooms = (branchId) => {
-    navigate(`/rooms/${branchId}`);
+    navigate(`/admin/branch/rooms/${branchId}`);
   };
 
   if (loading) {
@@ -48,24 +48,24 @@ const Branch = () => {
             <h2 className="branch-name">{branch.name}</h2>
             <p className="branch-phone">Số điện thoại: {branch.phoneNumber}</p>
             <div className="col">
-            <button
-              onClick={() => handleViewRooms(branch.id)}
-              className="view-rooms-button"
-            >
-              Xem phòng
-            </button>
-            <button className="view-address-button">
-            <a
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                branch.address
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="view-address-link"
-            >
-              Xem địa chỉ
-            </a>
-            </button>
+              <button
+                onClick={() => handleViewRooms(branch.id)}
+                className="view-rooms-button"
+              >
+                Xem phòng
+              </button>
+              <button className="view-address-button">
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                    branch.address
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="view-address-link"
+                >
+                  Xem địa chỉ
+                </a>
+              </button>
             </div>
           </div>
         </div>

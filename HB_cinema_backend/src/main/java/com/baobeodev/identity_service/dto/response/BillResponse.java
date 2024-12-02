@@ -1,5 +1,6 @@
 package com.baobeodev.identity_service.dto.response;
 
+import com.baobeodev.identity_service.entity.Ticket;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -13,4 +14,5 @@ import java.time.LocalDateTime;
 public class BillResponse {
      int id;
      LocalDateTime createdTime;
+     Ticket ticket;
 }

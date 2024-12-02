@@ -12,6 +12,8 @@ import {
   getAllMovie,
   updateMovie,
 } from "../../../api/apiMovie";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import "react-perfect-scrollbar/dist/css/styles.css";
 
 const Movie = () => {
   const [movies, setMovies] = useState([]);
@@ -103,7 +105,9 @@ const Movie = () => {
         </div>
       </div>
       <div className="movie-table-container">
-        <div className="table-wrapper">
+        <PerfectScrollbar
+          style={{ maxHeight: "570px", overflowX: "auto", width: "100%" }}
+        >
           <table className="movie-table">
             <thead>
               <tr>
@@ -160,7 +164,7 @@ const Movie = () => {
               ))}
             </tbody>
           </table>
-        </div>
+        </PerfectScrollbar>
       </div>
 
       {isAddModalOpen && (

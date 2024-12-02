@@ -9,9 +9,9 @@ const SelectedSeat = () => {
   const { id } = useParams();
   const [seats, setSeats] = useState([]);
   const [combos, setCombos] = useState([
-    { name: "Popcorn Sweet - Pepsi", price: 50 },
-    { name: "Popcorn Sweet - Coca", price: 50 },
-    { name: "Couple Sweet - Crush", price: 90 },
+    { name: "Popcorn Sweet - Pepsi", price: 4 },
+    { name: "Popcorn Sweet - Coca", price: 4 },
+    { name: "Couple Sweet - Crush", price: 6 },
   ]);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [selectedCombos, setSelectedCombos] = useState([]);
@@ -167,7 +167,7 @@ const SelectedSeat = () => {
       <div className="space col-xl-1"></div>
       <div className="col-xl-5">
         <div className="combo-container">
-          <h3 className="font-medium mb-4">Chọn Combo</h3>
+          <h3 className="font-medium mb-4">Select Combo</h3>
           <div className="combo-grid">
             {combos.map((combo, index) => (
               <div key={index} className="combo-item">
@@ -182,7 +182,7 @@ const SelectedSeat = () => {
                 <div className="combo-info">
                   <span className="combo-name">{combo.name}</span>
                   <span className="combo-price">
-                    {combo.price.toLocaleString()}đ
+                    {combo.price.toLocaleString()}$
                   </span>
                 </div>
                 <div className="combo-controls">
@@ -244,7 +244,7 @@ const SelectedSeat = () => {
               <p className="text-sm">
                 {selectedSeats.length > 0
                   ? selectedSeats.map((seat) => seat.name).join(", ")
-                  : "Chưa chọn ghế"}
+                  : "Not selected seat"}
               </p>
             </div>
             <div className="text-right">

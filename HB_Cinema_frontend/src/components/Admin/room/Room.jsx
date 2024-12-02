@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'; // Để lấy branchId từ URL
-import { getToken } from '../../services/localStorageService'; // Giả sử bạn đã có service để lấy JWT từ localStorage
+import { getToken } from '../../../api/localStorage'; // Giả sử bạn đã có service để lấy JWT từ localStorage
 import "./room.css"
 
 
-const BASE_URL = 'http://localhost:8081/identity/rooms/branch';
+
 
 const Room = () => {
-    const { branchId } = useParams(); // Lấy branchId từ URL
+    const { id } = useParams(); // Lấy branchId từ URL
     const [rooms, setRooms] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -16,7 +16,7 @@ const Room = () => {
         const fetchRooms = async () => {
             try {
                 const token = getToken(); // Lấy JWT từ localStorage
-                const response = await fetch(`${BASE_URL}/${branchId}`, {
+                const response = await fetch(`http://localhost:8081/identity/rooms/branch/${id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ const Room = () => {
         };
 
         fetchRooms();
-    }, [branchId]); // useEffect chỉ gọi lại khi `branchId` thay đổi
+    }, [id]); // useEffect chỉ gọi lại khi `branchId` thay đổi
 
     if (loading) {
         return <div>Đang tải dữ liệu...</div>;

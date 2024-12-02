@@ -8,7 +8,7 @@ import Logo from "../../../assets/images/logo.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaSignOutAlt } from "react-icons/fa";
-import { NavLink } from "react-router-dom"; 
+import { NavLink } from "react-router-dom";
 import { removeToken } from "../../../api/localStorage";
 import "./sidebar.css";
 
@@ -32,8 +32,8 @@ export default function SidebarAdmin() {
       <div className="sidebar-profile">
         <UserCircleIcon className="profile-icon" />
         <div className="profile-text">
-          <h2>NguyenNhu</h2>
-          <p>Admin</p>
+          <h2 className="text-gray-700">HB CINEMA</h2>
+          <p className="text-gray-700">Admin</p>
         </div>
         <button className="logout-button" onClick={handleLogout}>
           <FaSignOutAlt className="h-4 w-4" />
@@ -42,14 +42,14 @@ export default function SidebarAdmin() {
 
       {/* Menu Items */}
       <div className="menu-items">
-        <NavLink
+        {/* <NavLink
           to="/admin/dashboard"
           className={({ isActive }) => `menu-item ${isActive ? "active" : ""}`}
           onClick={() => setActiveMenu("dashboard")}
         >
           <ChartPieIcon className="menu-item-icon" />
           <span className="menu-item-text">Dashboard</span>
-        </NavLink>
+        </NavLink> */}
 
         <NavLink
           to="/admin/user"
@@ -76,6 +76,14 @@ export default function SidebarAdmin() {
         >
           <ChartBarIcon className="menu-item-icon" />
           <span className="menu-item-text">Branch</span>
+        </NavLink>
+        <NavLink
+          to="/admin/schedule"
+          className={({ isActive }) => `menu-item ${isActive ? "active" : ""}`}
+          onClick={() => setActiveMenu("schedule")}
+        >
+          <ChartBarIcon className="menu-item-icon" />
+          <span className="menu-item-text">Schedule</span>
         </NavLink>
       </div>
     </div>

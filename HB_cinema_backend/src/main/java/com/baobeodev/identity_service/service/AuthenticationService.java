@@ -140,6 +140,7 @@ public class AuthenticationService {
                 .issueTime(new Date())
                 .expirationTime(new Date(Instant.now().plus(VALID_DURATION, ChronoUnit.SECONDS).toEpochMilli()))//token hết hạng sau 1 h
                 .jwtID(UUID.randomUUID().toString())// tạo claim id jwt
+                .claim("email", user.getEmail())  // Thêm email của người dùng vào token
                 .claim("scope",BuildScope(user))// list role này spring sẽ tự xử lý
                 .build();
 

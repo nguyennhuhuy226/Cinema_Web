@@ -18,18 +18,18 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     @Column(name = "qr_imageurl", length = 5000)
-    String qrImageURL;
+     String qrImageURL;
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(nullable = false, name = "seat_id")
-    Seat seat;
+    @JoinColumn(nullable = false,name = "seat_id")
+     Seat seat;
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(nullable = false, name = "schedule_id")
-    Schedule schedule;
+    @JoinColumn(nullable = false,name = "schedule_id")
+     Schedule schedule;
     @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "bill_id")
-    Bill bill;
+    @JoinColumn(name="bill_id")
+     Bill bill;
 
 }

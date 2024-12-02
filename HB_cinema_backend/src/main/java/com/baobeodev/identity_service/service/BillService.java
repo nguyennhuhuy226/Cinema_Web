@@ -42,7 +42,7 @@ public class BillService {
         bill.setCreatedTime(LocalDateTime.now());
         // Lưu hóa đơn và trả về BillResponse
         Bill savedBill = billRepository.save(bill);
-        log.info("User in Bill: " + savedBill.getUser().getUsername()); // Kiểm tra User trong Bill
+        log.info("User in Bill: " + savedBill.getUser().getEmail()); // Kiểm tra User trong Bill
 
         return billMapper.toBillResponse(savedBill);
     }
@@ -52,7 +52,7 @@ public class BillService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         List<Bill> bills = billRepository.findByUser_Username(username);
-      log.info(" "+bills);
+         log.info(" "+bills);
         return bills.stream().map(billMapper::toBillResponse).collect(Collectors.toList());
     }
 

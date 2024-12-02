@@ -24,7 +24,7 @@ export default function Login() {
       const decodedToken = jwtDecode(token);
       const userRole = decodedToken.scope;
       if (userRole === "ROLE_ADMIN") {
-        navigate("/admin/dashboard");
+        navigate("/admin/user");
       } else {
         navigate("/");
       }
