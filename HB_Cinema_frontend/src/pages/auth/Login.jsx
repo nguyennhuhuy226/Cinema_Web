@@ -5,14 +5,13 @@ import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import Logo from "../../assets/images/logo.png";
 import { jwtDecode } from "jwt-decode";
 import { login } from "../../api/authService";
-import "./login.css";
+import "./auth.css"; 
 
 export default function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  
 
   useEffect(() => {
     const token = getToken();
@@ -33,20 +32,18 @@ export default function Login() {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    // Validation for empty username
-  if (!username.trim()) {
-    setError("Username cannot be empty");
-    return;
-  }
-  // Validation for password length
-  if (password.length < 5) {
-    setError("Password must be at least 8 characters long");
-    return;
-  }
+    if (!username.trim()) {
+      setError("Username cannot be empty");
+      return;
+    }
+    if (password.length < 5) {
+      setError("Password must be at least 8 characters long");
+      return;
+    }
     try {
       setError(null);
       const data = await login(username, password);
-      console.log(data);  
+      console.log(data);
       const token = getToken();
       handleTokenRedirect(token);
     } catch (error) {
@@ -56,23 +53,23 @@ export default function Login() {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <div className="logo-container">
-          <img src={Logo} alt="Logo" className="logo-login" />
+    <div className="auth-container">
+      <div className="auth-card">
+        <div className="auth-logo-container">
+          <img src={Logo} alt="Logo" className="auth-logo" />
         </div>
         <form onSubmit={handleLogin} className="space-y-4">
           <input
             type="text"
             placeholder="Username"
-            className="login-input-field"
+            className="auth-input-field"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
           <input
             type="password"
             placeholder="Password"
-            className="login-input-field"
+            className="auth-input-field"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -88,17 +85,17 @@ export default function Login() {
               Forgot password?
             </a>
           </div>
-          {error && <p className="text-red-500 text-sm">{error}</p>} 
-          <button type="submit" className="login-button">
+          {error && <p className="auth-error">{error}</p>}
+          <button type="submit" className="auth-button">
             LOGIN
           </button>
         </form>
-        <div className="my-6 text-center text-gray-400">or</div>
+        <div className="auth-divider">or</div>
         <div className="space-y-3">
-          <button className="social-button google-button">
+          <button className="auth-social-button auth-google-button">
             <FaGoogle className="mr-2" /> Sign in with Google
           </button>
-          <button className="social-button facebook-button">
+          <button className="auth-social-button auth-facebook-button">
             <FaFacebookF className="mr-2" /> Sign in with Facebook
           </button>
         </div>

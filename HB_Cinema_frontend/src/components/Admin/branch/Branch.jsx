@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllBranch } from "../../../api/apiBranch";
-import "./branch.css"; // Import CSS tách riêng
+import "./branch.css"; 
 
 const Branch = () => {
   const [branches, setBranches] = useState([]);

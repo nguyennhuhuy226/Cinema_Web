@@ -1,4 +1,7 @@
-.login-container {
+/* Styles for auth (login & sign-up) */
+
+/* General container for auth pages */
+.auth-container {
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -8,7 +11,8 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.login-card {
+/* Card layout for auth forms */
+.auth-card {
     background-color: #26313c;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 2rem;
@@ -16,7 +20,8 @@
     width: 24rem;
 }
 
-.login-input-field {
+/* Input field styles */
+.auth-input-field {
     width: 100%;
     padding: 0.75rem;
     border-radius: 0.5rem;
@@ -26,12 +31,13 @@
     transition: all 0.3s ease;
 }
 
-.login-input-field:focus {
+.auth-input-field:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.5);
 }
 
-.login-button {
+/* Submit button styles */
+.auth-button {
     width: 100%;
     background-color: #f97316;
     color: white;
@@ -41,11 +47,12 @@
     transition: background-color 0.3s ease;
 }
 
-.login-button:hover {
+.auth-button:hover {
     background-color: #ea580c;
 }
 
-.social-button {
+/* Social media button styles */
+.auth-social-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -56,10 +63,39 @@
     transition: all 0.3s ease;
 }
 
-.google-button {
+.auth-google-button {
     background-color: #1877f2;
 }
 
-.facebook-button {
+.auth-facebook-button {
     background-color: #1877f2;
+}
+
+/* Logo container */
+.auth-logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.auth-logo {
+    width: 150px;
+    height: 40px;
+}
+
+/* Additional utility styles for error and success messages */
+.auth-error {
+    color: #f87171;
+    font-size: 0.875rem;
+}
+
+.auth-success {
+    color: #4ade80;
+    font-size: 0.875rem;
+}
+
+.auth-divider {
+    margin: 1.5rem 0;
+    text-align: center;
+    color: #9ca3af;
 }

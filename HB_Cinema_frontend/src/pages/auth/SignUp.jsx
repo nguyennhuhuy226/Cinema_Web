@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
-import "./sign-up.css";
 import { addUser } from "../../api/apiUser";
 import { jwtDecode } from "jwt-decode";
 import { login } from "../../api/authService";
 import { getToken } from "../../api/localStorage";
+import "./auth.css"; 
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -28,7 +28,6 @@ export default function SignUp() {
     }
   };
 
-  // Hàm kiểm tra định dạng email
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -37,27 +36,22 @@ export default function SignUp() {
   const handleSignUp = async (event) => {
     event.preventDefault();
 
-    // Kiểm tra điều kiện đầu vào
     if (!email) {
       setError("Email cannot be empty.");
       return;
     }
-
     if (!isValidEmail(email)) {
       setError("Invalid email format.");
       return;
     }
-
     if (!username) {
       setError("Username cannot be empty.");
       return;
     }
-
     if (password.length < 8) {
       setError("Password must be at least 8 characters long.");
       return;
     }
-
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
@@ -81,53 +75,49 @@ export default function SignUp() {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
+    <div className="auth-container">
+      <div className="auth-card">
         <form onSubmit={handleSignUp} className="space-y-4">
           <input
             type="text"
             placeholder="Enter your email"
-            className="login-input-field"
+            className="auth-input-field"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="text"
             placeholder="Username"
-            className="login-input-field"
+            className="auth-input-field"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
           <input
             type="password"
             placeholder="Password"
-            className="login-input-field"
+            className="auth-input-field"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <input
             type="password"
             placeholder="Confirm Password"
-            className="login-input-field"
+            className="auth-input-field"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-          {success && (
-            <p className="text-green-500 text-sm">
-              User registered successfully!
-            </p>
-          )}
-          <button type="submit" className="login-button">
+          {error && <p className="auth-error">{error}</p>}
+          {success && <p className="auth-success">User registered successfully!</p>}
+          <button type="submit" className="auth-button">
             SIGN UP
           </button>
         </form>
-        <div className="my-6 text-center text-gray-400">or</div>
+        <div className="auth-divider">or</div>
         <div className="space-y-3">
-          <button className="social-button google-button">
+          <button className="auth-social-button auth-google-button">
             <FaGoogle className="mr-2" /> Sign up with Google
           </button>
-          <button className="social-button facebook-button">
+          <button className="auth-social-button auth-facebook-button">
             <FaFacebookF className="mr-2" /> Sign up with Facebook
           </button>
         </div>

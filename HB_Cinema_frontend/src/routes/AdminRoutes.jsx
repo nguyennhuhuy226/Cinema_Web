@@ -1,16 +1,16 @@
 
 import React, { useState } from "react";
 import { FiMenu } from "react-icons/fi";
-import Sidebar from "../../components/Admin/sidebar/Sidebar";
+import Sidebar from "../components/Admin/sidebar/Sidebar";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import Movie from "../../components/Admin/movie/Movie";
-import Branch from "../../components/Admin/branch/Branch";
-import User from "../../components/Admin/user/User";
-import Dashboard from "../../components/Admin/dashboard/Dashboard";
-import Room from "../../components/Admin/room/Room";
-import Schedule from "../../components/Admin/schedule/Schedule";
+import Movie from "../components/Admin/movie/Movie";
+import Branch from "../components/Admin/branch/Branch";
+import User from "../components/Admin/user/User";
+import Dashboard from "../components/Admin/dashboard/Dashboard";
+import Room from "../components/Admin/room/Room";
+import Schedule from "../components/Admin/schedule/Schedule";
 
-const Admin = () => {
+const AdminRoutes = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSidebarOpenOnMobile, setIsSidebarOpenOnMobile] = useState(false);
 
@@ -100,4 +100,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default AdminRoutes;

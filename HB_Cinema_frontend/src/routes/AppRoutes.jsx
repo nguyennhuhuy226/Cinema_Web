@@ -1,9 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import User from "../pages/user/User";
-import Login from "../pages/login/Login";
-import Admin from "../pages/admin/Admin";
-import SignUp from "../pages/sign-up/SignUp";
-
+import User from "./UserRoutes";
+import Login from "../pages/auth/Login";
+import SignUp from "../pages/auth/SignUp";
+import AdminRoutes from "./AdminRoutes";
 
 const AppRoutes = () => {
   return (
@@ -12,7 +11,7 @@ const AppRoutes = () => {
         <Route path="/*" element={<User />} />
         <Route path="/login" element={<Login />} />
         <Route path="/sign_up" element={<SignUp />} />
-        <Route path="/admin/*" element={<Admin />} />
+        <Route path="/admin/*" element={<AdminRoutes />} />
       </Routes>
     </Router>
   );
