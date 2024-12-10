@@ -51,8 +51,17 @@ const User = () => {
 
   const handleUpdateUser = async (id, updatedUser) => {
     try {
+      const payload = {
+        username: updatedUser.username, // Lấy từ form
+        firstName: updatedUser.firstName, // Lấy từ form
+        lastName: updatedUser.lastName, // Lấy từ form
+        email: updatedUser.email, // Lấy từ form
+        phoneNumber: updatedUser.phoneNumber, // Lấy từ form
+        address: updatedUser.address, // Lấy từ form
+        dob: new Date(updatedUser.dob).toISOString().split("T")[0], // Định dạng YYYY-MM-DD
+      };
       setError(null);
-      await updateUser(id, updatedUser);
+      await updateUser(id, payload);
       fetchAllUsers();
       alert("Successfully!");
     } catch (error) {

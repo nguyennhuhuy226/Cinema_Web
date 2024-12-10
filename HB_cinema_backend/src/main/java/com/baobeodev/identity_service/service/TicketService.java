@@ -196,9 +196,9 @@ public class TicketService {
                         "</thead>" +
                         "<tbody>" + combosInfo + "</tbody>" +
                         "</table>" +
-                        "<p style='font-size: 16px;'><strong>Tổng tiền vé:</strong> " + totalTicketPrice + " $</p>" +
-                        "<p style='font-size: 16px;'><strong>Tổng tiền combo:</strong> " + totalComboPrice + " $</p>" +
-                        "<p style='font-size: 18px; color: green;'><strong>Tổng cộng:</strong> " + totalAmount + " $</p>" +
+                        "<p style='font-size: 16px;'><strong>Tổng tiền vé:</strong> " + totalTicketPrice + " VND</p>" +
+                        "<p style='font-size: 16px;'><strong>Tổng tiền combo:</strong> " + totalComboPrice + " VND</p>" +
+                        "<p style='font-size: 18px; color: green;'><strong>Tổng cộng:</strong> " + totalAmount + " VND</p>" +
                         "<h4 style='color: #555;'>Mã QR:</h4>" +
                         "<div style='text-align: center;'>" + qrImages + "</div>" +
                         "</div>";

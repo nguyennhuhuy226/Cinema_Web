@@ -46,13 +46,13 @@ const Branch = () => {
           />
           <div className="branch-content">
             <h2 className="branch-name">{branch.name}</h2>
-            <p className="branch-phone">Số điện thoại: {branch.phoneNumber}</p>
+            <p className="branch-phone">Phone Number: {branch.phoneNumber}</p>
             <div className="col">
               <button
                 onClick={() => handleViewRooms(branch.id)}
                 className="view-rooms-button"
               >
-                Xem phòng
+                Show Room
               </button>
               <button className="view-address-button">
                 <a
@@ -63,7 +63,7 @@ const Branch = () => {
                   rel="noopener noreferrer"
                   className="view-address-link"
                 >
-                  Xem địa chỉ
+                  Address
                 </a>
               </button>
             </div>

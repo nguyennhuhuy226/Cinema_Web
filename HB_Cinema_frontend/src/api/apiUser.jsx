@@ -37,7 +37,7 @@ export const addUser = async (user) => {
 // Cập nhật thông tin người dùng
 export const updateUser = async (id, user) => {
   try {
-    console.log("Request updte user ", user);
+    console.log("Request update user ", user);
     const response = await requestPrivate.put(`/users/${id}`, user);
     return response.data;
   } catch (error) {

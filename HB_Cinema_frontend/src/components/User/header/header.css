@@ -201,32 +201,7 @@
   width: 100%;
 }
 
-.search__container {
-  width: 245px;
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(to bottom, rgb(239, 119, 39), rgb(255, 231, 231));
-  border-radius: 30px;
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.075);
-}
-.search__btn {
-  border-radius: 2px;
-  width: 240px;
-  height: 40px;
-  border: none;
-  outline: none;
-  caret-color: rgb(255, 81, 0);
-  background-color: rgb(255, 255, 255);
-  border-radius: 30px;
-  padding-left: 15px;
-  letter-spacing: 0.8px;
-  color: #1a1a1d;
-  font-size: 13.4px;
-}
+
 @media (max-width: 1000px) {
   .header {
     padding: 1.3rem 5%;
@@ -296,33 +271,57 @@
     top: 35px;
     transform: translateY(-50%);
   }
-  .search__container {
-    position: absolute;
-    right: 20%;
-    top: 40px;
-    transform: translateY(-50%);
-  }
+  
 }
 
-@media (max-width: 768px) {
-  .search__container {
-    width: 250px;
-    position: absolute;
-    right: 25%;
-    top: 50%;
-    margin-top: 13px;
-    transform: translateY(-50%);
-  }
-  .search__btn {
-    width: 240px;
-  }
+/* Search Section Styles */
+.search-section {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
 }
 
-@media (max-width: 500px) {
-  .search__container {
+.search-form {
+  display: flex;
+  align-items: center;
+  background-color: #f0f0f0;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.search-input {
+  border: none;
+  background-color: transparent;
+  padding: 8px 12px;
+  outline: none;
+  width: 200px;
+  color: #333;
+}
+
+.search-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  transition: color 0.3s ease;
+}
+
+.search-button:hover {
+  color: #000;
+}
+
+.search-input::placeholder {
+  color: #999;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1000px) {
+  .search-section {
     display: none;
-  }
-  .search__btn {
-    display: none;
+   
   }
 }

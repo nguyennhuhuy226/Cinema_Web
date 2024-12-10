@@ -55,9 +55,12 @@
   }
   
   .branch-button {
-    width: 95px;
     white-space: nowrap;
     font-weight: bold;
+  }
+
+  .branch-button img {
+    max-width: 70px;
   }
   
   .room-button {

@@ -7,6 +7,7 @@ import { removeToken } from "../../../api/localStorage";
 const Header = ({ data, onLogout }) => {
   const navigate = useNavigate();
   const [showUserInfo, setShowUserInfo] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const toggleUserInfo = () => {
     setShowUserInfo(!showUserInfo);
@@ -17,8 +18,8 @@ const Header = ({ data, onLogout }) => {
   const handleLogin = () => {
     removeToken();
     navigate("/login");
-  }
-  
+  };
+
   const handleLogout = () => {
     removeToken();
     setShowUserInfo(false);
@@ -29,6 +30,15 @@ const Header = ({ data, onLogout }) => {
   const handleProfile = () => {
     navigate("/profile");
     setShowUserInfo(false);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      // Navigate to search results page with query
+      navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
+      setSearchQuery(""); // Clear search input after navigation
+    }
   };
 
   return (
@@ -56,20 +66,30 @@ const Header = ({ data, onLogout }) => {
               </NavLink>
             </ul>
           </nav>
-          <div className="search__container">
-            <input
-              className="search__btn"
-              placeholder="Search..."
-              type="search"
-            ></input>
+          
+          {/* Search Section */}
+          <div className="search-section">
+            <form onSubmit={handleSearch} className="search-form">
+              <input 
+                type="text" 
+                placeholder="Search movies..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+              />
+              <button type="submit" className="search-button">
+                <i className="bx bx-search"></i>
+              </button>
+            </form>
           </div>
+
           <div className="user-section">
             {data ? (
               <div className="user-avatar-wrapper">
                 <button className="user-avatar" onClick={toggleUserInfo}>
                   {avatar}
                 </button>
-
+                
                 {showUserInfo && (
                   <div className="user-dropdown">
                     <div className="user-info">

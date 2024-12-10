@@ -5,16 +5,33 @@ import {
   ChartBarIcon,
 } from "@heroicons/react/24/outline";
 import Logo from "../../../assets/images/logo.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaSignOutAlt } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { removeToken } from "../../../api/localStorage";
+import { getMyInfo } from "../../../api/apiUser";
 import "./sidebar.css";
 
 export default function SidebarAdmin() {
+  const [myInfo, setMyInfo] = useState({});
   const [activeMenu, setActiveMenu] = useState("dashboard"); // Thiết lập trạng thái menu đang hoạt động
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchMyInfo();
+  }, []);
+
+  const fetchMyInfo = async () => {
+    try {
+      const data = await getMyInfo();
+      const myInfo = data.result;
+      setMyInfo(myInfo);
+      console.log(myInfo);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleLogout = () => {
     removeToken(); // Gọi hàm logout của bạn ở đây
@@ -32,7 +49,7 @@ export default function SidebarAdmin() {
       <div className="sidebar-profile">
         <UserCircleIcon className="profile-icon" />
         <div className="profile-text">
-          <h2 className="text-gray-700">HB CINEMA</h2>
+          <h2 className="text-gray-700">{myInfo.username}</h2>
           <p className="text-gray-700">Admin</p>
         </div>
         <button className="logout-button" onClick={handleLogout}>

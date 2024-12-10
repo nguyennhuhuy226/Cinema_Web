@@ -1,53 +1,121 @@
-@import "react-perfect-scrollbar/dist/css/styles.css";
-
-.schedule-page {
-    margin: 20px;
+/* Schedule Management Styles */
+.schedule-management {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
     padding: 20px;
-    /* Thêm padding cho toàn bộ vùng chứa bảng */
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    overflow-x: auto;
-    /* Giúp cuộn ngang nếu bảng rộng */
+    background-color: #f4f4f4;
 }
 
-.schedule-page h1 {
-    font-size: 24px;
+.schedule-filters {
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 20px;
+    gap: 10px;
 }
 
-.schedule-page table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    min-width: 800px;
-    /* Đảm bảo bảng không bị thu nhỏ quá mức */
+.branch-select, 
+.date-select, 
+.add-schedule-btn {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
-.schedule-page th,
-.schedule-page td {
-    padding: 10px;
-    /* Padding cho các ô */
-    text-align: center;
+.add-schedule-btn {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.schedule-page th {
-    background-color: #fb923c;
-    /* bg-orange-400 */
-    ;
-    ;
+.add-schedule-btn:hover {
+    background-color: #45a049;
+}
+
+.schedule-list {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.schedule-day {
+    border-bottom: 1px solid #eee;
+}
+
+.schedule-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.schedule-item:hover {
+    background-color: #f9f9f9;
+}
+
+.schedule-time {
+    font-weight: bold;
+    margin-right: 15px;
+    min-width: 60px;
+}
+
+.schedule-details {
+    flex-grow: 1;
+}
+
+.movie-name {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+}
+
+.schedule-info {
+    color: #666;
+    font-size: 14px;
+}
+
+.branch-name, 
+.room-name {
+    margin-right: 10px;
+}
+
+.schedule-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.update-btn, 
+.delete-btn {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.update-btn {
+    background-color: #2196F3;
     color: white;
 }
 
-.schedule-page tr {
-    border-bottom: 1px solid #ddd;
-    /* Kẻ đường ngang cho các hàng */
+.delete-btn {
+    background-color: #f44336;
+    color: white;
 }
 
-.schedule-page tr:hover {
-    background-color: #f5f5f5;
+.update-btn:hover {
+    background-color: #1976D2;
 }
 
-/* Loại bỏ viền dọc */
-.schedule-page td {
-    border-right: none;
+.delete-btn:hover {
+    background-color: #d32f2f;
 }
+
+.no-schedules, 
+.loading, 
+.error {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+

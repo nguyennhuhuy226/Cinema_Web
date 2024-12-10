@@ -174,7 +174,6 @@ public class ScheduleService {
     public void updateRoomAndSeatsAfterShow(int roomId) {
         LocalDateTime now = LocalDateTime.now();
         log.info("Current time (now): {}", now);
-
         // Truy vấn các lịch chiếu trong phòng
         List<Schedule> schedules = scheduleRepository.findByRoomIdAndStartDateTimeBetween(
                 roomId, now.minusDays(1), now.plusDays(1)
@@ -191,7 +190,6 @@ public class ScheduleService {
             log.info("Seats updated successfully for room {}.", roomId);
             throw new AppException(ErrorCode.NO_SCHEDULES_GOING_FOUND);
         }
-
         // Kiểm tra nếu có lịch chiếu đang diễn ra
         boolean isOngoingSchedule = schedules.stream()
                 .anyMatch(s -> now.isAfter(s.getStartDateTime()) &&
@@ -199,20 +197,16 @@ public class ScheduleService {
         if (isOngoingSchedule) {
             throw new AppException(ErrorCode.AN_ONGOING_SCHEDULE);
         }
-
         // Kiểm tra nếu tất cả lịch chiếu đã kết thúc
         boolean allSchedulesFinished = schedules.stream()
                 .allMatch(s -> now.isAfter(s.getStartDateTime().plusMinutes(Long.parseLong(s.getMovie().getDuration()))));
         if (!allSchedulesFinished) {
             throw new AppException(ErrorCode.NO_FINISHED_SCHEDULES);
         }
-
         // Cập nhật trạng thái ghế trong bảng ScheduleSeat nếu tất cả lịch chiếu đã kết thúc
         log.info("All schedules finished for room {}. Proceeding to update seats.", roomId);
-
         // Truy vấn tất cả ScheduleSeats cho các lịch chiếu trong phòng
         List<ScheduleSeat> scheduleSeats = scheduleSeatRepository.findBySchedule_Room_Id(roomId);
-
         // Cập nhật trạng thái booked của các ghế trong ScheduleSeat
         scheduleSeats.forEach(scheduleSeat -> {
             scheduleSeat.setBooked(false);  // Đặt trạng thái ghế thành chưa được đặt
