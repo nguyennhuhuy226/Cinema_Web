@@ -1,22 +1,21 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./bill-modal.css";
-import { FaArrowRightLong } from "react-icons/fa6";
+import { FaArrowRightLong, FaClosedCaptioning } from "react-icons/fa6";
+import { MdClose } from "react-icons/md";
 
-const BillModal = ({ bill, onClose }) => {
+const BillModal = ({ bill, onClose, goVNPay }) => {
   const navigate = useNavigate();
   if (!bill) return null;
 
   const { totalPrice, totalAmount, tickets, combos } = bill;
-  const goProfile = () => {
-    navigate("/profile"); 
-  };
+  
 
   return (
     <div className="bill-modal-overlay">
       <div className="bill-modal">
-        <button className="bill-button-right" onClick={goProfile}>
-          <FaArrowRightLong />
+        <button className="bill-button-right" onClick={onClose}>
+        <MdClose />
         </button>
         <div className="bill-content">
           {/* Left Section */}
@@ -100,7 +99,7 @@ const BillModal = ({ bill, onClose }) => {
               alt="QR Code"
               className="bill-qr-text"
             />
-            <p className="qr-text">Scan QR code to pay</p>
+            <button className="bill-qr-text" onClick={goVNPay}>Go to VNPay wallet</button>
           </div>
         </div>
       </div>

@@ -12,6 +12,7 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false); // New loading state
 
   useEffect(() => {
     const token = getToken();
@@ -40,7 +41,9 @@ export default function Login() {
       setError("Password must be at least 8 characters long");
       return;
     }
+
     try {
+      setLoading(true);  // Set loading to true when login starts
       setError(null);
       const data = await login(username, password);
       console.log(data);
@@ -49,6 +52,8 @@ export default function Login() {
     } catch (error) {
       console.error("Error login:", error.message);
       setError(error.message);
+    } finally {
+      setLoading(false);  // Set loading to false after login attempt
     }
   };
 
@@ -86,16 +91,16 @@ export default function Login() {
             </a>
           </div>
           {error && <p className="auth-error">{error}</p>}
-          <button type="submit" className="auth-button">
-            LOGIN
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? "Loading..." : "LOGIN"} {/* Display loading text */}
           </button>
         </form>
         <div className="auth-divider">or</div>
         <div className="space-y-3">
-          <button className="auth-social-button auth-google-button">
+          <button className="auth-social-button auth-google-button" disabled={loading}>
             <FaGoogle className="mr-2" /> Sign in with Google
           </button>
-          <button className="auth-social-button auth-facebook-button">
+          <button className="auth-social-button auth-facebook-button" disabled={loading}>
             <FaFacebookF className="mr-2" /> Sign in with Facebook
           </button>
         </div>

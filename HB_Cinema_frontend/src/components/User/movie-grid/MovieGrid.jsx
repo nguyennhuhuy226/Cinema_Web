@@ -28,7 +28,8 @@ const MovieGrid = ({ movies }) => {
               <p className="movie-grid-duration">{movie.duration} min</p>
               <p className="movie-grid-overview">{movie.overView}</p>
             </div>
-            <div className="movie-grid-rating">{movie.rating}</div>
+            <div className="movie-grid-rating">{movie.rating.toFixed(1)}</div>
+
           </div>
         ))}
       </div>

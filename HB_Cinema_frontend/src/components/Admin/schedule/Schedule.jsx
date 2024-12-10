@@ -6,6 +6,9 @@ import { getAllSchedule, addSchedule, updateSchedule, deleteSchedule } from "../
 import DeleteSchedule from "../modal-admin/DeleteSchedule";
 import AddSchedule from "../modal-admin/AddSchedule";
 import EditSchedule from "../modal-admin/EditSchedule";
+import { MdDelete, MdEdit } from "react-icons/md";
+import { useNotificationModal } from "../../User/notificationModal/NotificationModal";
+import Loading from "../../User/loading/Loading";
 
 
 const Schedule = () => {
@@ -27,6 +30,8 @@ const Schedule = () => {
         roomId: "",
         startDateTime: ""
     });
+
+    const { openModal, ModalComponent } = useNotificationModal();
 
     useEffect(() => {
         fetchAllSchedule();  
@@ -56,10 +61,24 @@ const Schedule = () => {
                 roomId: "",
                 startDateTime: ""
             });
+            fetchAllSchedule();
+            // Show success notification
+            openModal({
+                type: 'success',
+                title: 'Schedule Added',
+                message: `The schedule for ${response.result.movieName} has been added successfully!`
+            });
         } catch (error) {
             setError(error.message);
+            // Show error notification
+            openModal({
+                type: 'error',
+                title: 'Error Adding Schedule',
+                message: `An error occurred while adding the schedule: ${error.message}`
+            });
         }
     };
+    
 
     // Update Schedule Handler
     const handleUpdateSchedule = async (updatedSchedule) => {
@@ -71,10 +90,24 @@ const Schedule = () => {
             setSchedules(updatedSchedules);
             setIsUpdateModalOpen(false);
             setSelectedSchedule(null);
+            fetchAllSchedule();
+            // Show success notification
+            openModal({
+                type: 'success',
+                title: 'Schedule Updated',
+                message: `The schedule for ${updatedSchedule.movieName} has been updated successfully!`
+            });
         } catch (error) {
             setError(error.message);
+            // Show error notification
+            openModal({
+                type: 'error',
+                title: 'Error Updating Schedule',
+                message: `An error occurred while updating the schedule: ${error.message}`
+            });
         }
     };
+    
 
     // Delete Schedule Handler
     const handleDeleteSchedule = async (scheduleId) => {
@@ -83,10 +116,23 @@ const Schedule = () => {
             setSchedules(schedules.filter(schedule => schedule.id !== scheduleId));
             setIsDeleteModalOpen(false);
             setScheduleToDelete(null);
+            // Show success notification
+            openModal({
+                type: 'success',
+                title: 'Schedule Deleted',
+                message: 'The schedule has been deleted successfully!'
+            });
         } catch (error) {
             setError(error.message);
+            // Show error notification
+            openModal({
+                type: 'error',
+                title: 'Error Deleting Schedule',
+                message: `An error occurred while deleting the schedule: ${error.message}`
+            });
         }
     };
+    
 
     // Get unique branches
     const branches = ["All", ...new Set(schedules.map(schedule => schedule.branchName))];
@@ -124,11 +170,12 @@ const Schedule = () => {
         setIsUpdateModalOpen(true);
     };
 
-    if (loading) return <div className="loading">Loading schedules...</div>;
+    if (loading) return <Loading text="Loading schedule list..."/>
     if (error) return <div className="error">Error: {error}</div>;
 
     return (
         <div className="schedule-management">
+            <ModalComponent />
             <div className="schedule-filters">
                 <select 
                     value={selectedBranch} 
@@ -172,13 +219,13 @@ const Schedule = () => {
                                             onClick={() => openUpdateModal(schedule)} 
                                             className="update-btn"
                                         >
-                                            Update
+                                            <MdEdit className="h-4 w-4" />
                                         </button>
                                         <button 
                                             onClick={() => openDeleteModal(schedule)} 
                                             className="delete-btn"
                                         >
-                                            Delete
+                                            <MdDelete className="h-4 w-4" />
                                         </button>
                                     </div>
                                 </div>

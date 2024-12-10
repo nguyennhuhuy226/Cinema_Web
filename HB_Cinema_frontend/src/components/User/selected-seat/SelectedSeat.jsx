@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getSeat } from "../../../api/apiSeat";
 import "./selectedSeat.css";
 import { createTicket } from "../../../api/apiTicket";
 import BillModal from "../modal-bill/BillModal";
+import Loading from "../loading/Loading";
+import { goToVNPay } from "../../../api/apiVNPay";
+import { useNotificationModal } from "../notificationModal/NotificationModal";
 
 const SelectedSeat = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const [urlVNPay, setUrlVNPay] = useState([]);
   const [seats, setSeats] = useState([]);
   const [combos, setCombos] = useState([
     { name: "Popcorn Sweet - Pepsi", price: 4 },
@@ -20,7 +25,7 @@ const SelectedSeat = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const scheduleId = id;
-
+  const { openModal, ModalComponent } = useNotificationModal();
   useEffect(() => {
     fetchSeat();
   }, [id]);
@@ -97,6 +102,7 @@ const SelectedSeat = () => {
 
   // Xử lý đặt vé
   const handleBookTickets = async () => {
+    setLoading(true);
     const ticketRequests = generateTicketRequests();
     const combosData = generateComboData();
     const bookingData = {
@@ -107,21 +113,33 @@ const SelectedSeat = () => {
     try {
       setError(null);
       const data = await createTicket(bookingData);
-      console.log(data);
+      const dataVNPay = await goToVNPay(totalPrice * 25000);
+      console.log(dataVNPay);
+      setUrlVNPay(dataVNPay.data.paymentUrl);
+      setLoading(false);
+      setSelectedSeats([]);
       setBill(data.result);
       setIsBillModal(true);
     } catch (error) {
       setError(error.message);
-      alert(error.message);
+      openModal({ type: "error", title: "Error", message: error.message });
+    } finally {
+      setLoading(false);
+      fetchSeat();
     }
   };
 
+  const handleGoToVNPay = () => {
+    window.open(urlVNPay, "_blank"); // Open the external link in a new tab
+  };
+
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading text="Processing..." />;
   }
 
   return (
     <div className="container row seat-container">
+      <ModalComponent />
       <div className="col-xl-6">
         <div className="screen">
           <div className="screen-display">Screen</div>
@@ -264,7 +282,8 @@ const SelectedSeat = () => {
       {isBillModal && (
         <BillModal
           bill={bill} // Truyền dữ liệu hóa đơn
-          onClose={() => setIsBillModal(false)} // Đóng modal khi bấm nút Đóng
+          onClose={() => setIsBillModal(false)}
+          goVNPay={handleGoToVNPay} // Đóng modal khi bấm nút Đóng
         />
       )}
     </div>

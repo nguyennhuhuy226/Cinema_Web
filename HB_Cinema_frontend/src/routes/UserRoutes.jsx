@@ -8,6 +8,7 @@ import SelectedSeatPage from "../pages/user-pages/SelectedSeatPage";
 import TopRate from "../pages/user-pages/TopRate";
 import { getMyInfo } from "../api/apiUser";
 import ProfilePage from "../pages/user-pages/ProfilePage";
+import MovieSearch from "../pages/user-pages/MovieSearch";
 
 const UserRoutes = () => {
   const [myInfo, setMyInfo] = useState({});
@@ -44,6 +45,7 @@ const UserRoutes = () => {
           <Route path="/movies/:id" element={<MovieDetailPage />} />
           <Route path="/seats/schedule/:id" element={<SelectedSeatPage />} />
           <Route path="/profile*" element={<ProfilePage />} />
+          <Route path="/search" element={<MovieSearch />} />
         </Routes>
       </div>
     </>

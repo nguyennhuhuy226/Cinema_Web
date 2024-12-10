@@ -15,6 +15,7 @@ export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false); // New loading state
 
   const handleTokenRedirect = (token) => {
     if (token) {
@@ -60,6 +61,7 @@ export default function SignUp() {
     const newUser = { email, username, password };
 
     try {
+      setLoading(true); // Set loading to true when sign-up starts
       setError(null);
       setSuccess(false);
       const result = await addUser(newUser);
@@ -71,6 +73,8 @@ export default function SignUp() {
     } catch (error) {
       console.error("Error adding user:", error.message);
       setError(error.message);
+    } finally {
+      setLoading(false); // Set loading to false after the request finishes
     }
   };
 
@@ -108,16 +112,16 @@ export default function SignUp() {
           />
           {error && <p className="auth-error">{error}</p>}
           {success && <p className="auth-success">User registered successfully!</p>}
-          <button type="submit" className="auth-button">
-            SIGN UP
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? "Creating..." : "SIGN UP"} {/* Show loading state text */}
           </button>
         </form>
         <div className="auth-divider">or</div>
         <div className="space-y-3">
-          <button className="auth-social-button auth-google-button">
+          <button className="auth-social-button auth-google-button" disabled={loading}>
             <FaGoogle className="mr-2" /> Sign up with Google
           </button>
-          <button className="auth-social-button auth-facebook-button">
+          <button className="auth-social-button auth-facebook-button" disabled={loading}>
             <FaFacebookF className="mr-2" /> Sign up with Facebook
           </button>
         </div>

@@ -2,10 +2,10 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getMovieSchedule } from "../../../api/apiSchedule";
 import "./movieSchedule.css";
-import branchHB  from "../../../assets/images/branchHB.png";
-import roomHB from "../../../assets/images/roomHB.png"
+import branchHB from "../../../assets/images/branchHB.png";
+import roomHB from "../../../assets/images/roomHB.png";
 import { getToken } from "../../../api/localStorage";
-
+import { useNotificationModal } from "../notificationModal/NotificationModal";
 
 const MovieSchedule = () => {
   const { id } = useParams();
@@ -15,6 +15,8 @@ const MovieSchedule = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedBranch, setSelectedBranch] = useState("");
   const [selectedRoom, setSelectedRoom] = useState("");
+  // Sử dụng hook thông báo
+  const { openModal, ModalComponent } = useNotificationModal();
 
   useEffect(() => {
     const fetchMovieSchedule = async () => {
@@ -97,15 +99,16 @@ const MovieSchedule = () => {
 
   const handleShowtimeClick = (showtime) => {
     if (!token) {
+      openModal({ type: "info", title: "Please login", message: "Please login to purchase tickets" });
       navigate("/login"); // Chuyển hướng tới trang đăng nhập nếu chưa đăng nhập
     } else {
       navigate(`/seats/schedule/${showtime.id}`);
     }
   };
 
-
   return (
     <div className="container movie-schedule-container">
+      <ModalComponent />
       {/* Date Selection */}
       <div className="selection-row">
         {dates.map((date) => (
@@ -136,7 +139,7 @@ const MovieSchedule = () => {
               selectedBranch === branch ? "selected" : ""
             }`}
           >
-          <img src={branchHB} alt="" />
+            <img src={branchHB} alt="" />
             {branch}
           </button>
         ))}

@@ -53,6 +53,9 @@ const AdminRoutes = () => {
               <Link to="/admin/movie" className="hover:text-blue-500">
                 Movie
               </Link>
+              <Link to="/admin/branch" className="hover:text-blue-500">
+                Branch
+              </Link>
               <Link to="/admin/movie" className="hover:text-blue-500">
                 Schedule
               </Link>

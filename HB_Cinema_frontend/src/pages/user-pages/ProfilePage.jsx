@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import { getMyBill } from "../../api/apiBill";
 import { getTicketByBill } from "../../api/apiTicket";
 import MyBill from "../../components/User/my-bill/MyBill";
 import MyTicket from "../../components/User/my-ticket/MyTicket";
 import Profile from "../../components/User/profile/Profile";
-import Footer from "../../components/User/footer/Footer"
+import Footer from "../../components/User/footer/Footer";
 import { getMyInfo, updateUser } from "../../api/apiUser";
+import Loading from "../../components/User/loading/Loading";
+import { useNotificationModal } from "../../components/User/notificationModal/NotificationModal";
 
 const ProfilePage = () => {
   const [bills, setBills] = useState([]); // Danh sách hóa đơn
@@ -18,33 +25,38 @@ const ProfilePage = () => {
 
   const navigate = useNavigate();
 
-  // Gọi API lấy danh sách hóa đơn khi component được mount
+  // Sử dụng hook thông báo
+  const { openModal, ModalComponent } = useNotificationModal();
+
+  // Gọi API lấy danh sách hóa đơn và thông tin người dùng khi component được mount
   useEffect(() => {
     fetchMyBill();
     fetchMyInfo();
   }, []);
 
   const fetchMyBill = async () => {
-    setLoading(true);
+    setLoading(true); // Bắt đầu loading
     try {
       const data = await getMyBill();
       setBills(data.result);
-      setLoading(false);
     } catch (err) {
       setError(err.message);
-      setLoading(false);
+      openModal({ type: "error", title: "Error", message: err.message });
+    } finally {
+      setLoading(false); // Kết thúc loading
     }
   };
 
-
   const fetchMyInfo = async () => {
+    setLoading(true);
     try {
       const data = await getMyInfo();
-      const myInfo = data.result;
-      setMyInfo(myInfo);
-      console.log(myInfo);
+      setMyInfo(data.result);
     } catch (error) {
       setError(error.message);
+      openModal({ type: "error", title: "Lỗi", message: error.message });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,9 +65,10 @@ const ProfilePage = () => {
     try {
       const data = await getTicketByBill(billId);
       setTickets(data.result);
-      setLoading(false);
     } catch (err) {
       setError(err.message);
+      openModal({ type: "error", title: "Lỗi", message: err.message });
+    } finally {
       setLoading(false);
     }
   };
@@ -68,24 +81,56 @@ const ProfilePage = () => {
 
   const handleUpdateProfile = async (id, updatedUser) => {
     try {
+      const payload = {
+        username: updatedUser.username, // Lấy từ form
+        firstName: updatedUser.firstName, // Lấy từ form
+        lastName: updatedUser.lastName, // Lấy từ form
+        email: updatedUser.email, // Lấy từ form
+        phoneNumber: updatedUser.phoneNumber, // Lấy từ form
+        address: updatedUser.address, // Lấy từ form
+        dob: new Date(updatedUser.dob).toISOString().split("T")[0], // Định dạng YYYY-MM-DD
+      };
       setError(null);
-      await updateUser(id, updatedUser);
-      alert("Successfully!");
+      await updateUser(id, payload);
+      openModal({
+        type: "success",
+        title: "Success",
+        message: "Information updated successfully!",
+      });
     } catch (error) {
       setError(error.message);
+      openModal({ type: "error", title: "Error", message: error.message });
     }
   };
 
+  // Nếu đang loading, hiển thị trạng thái Loading
+  if (loading) {
+    return <Loading fullScreen={true} text="Loading data..." />;
+  }
+
   return (
-    <>
     <div className="row">
-      <div className="col-xl-5"><Profile title={"Profile details"} profile={myInfo} onSave={(updateUser) => {handleUpdateProfile(myInfo.id, updateUser)}}/></div>
+      <ModalComponent />
+      <div className="col-xl-5">
+        <Profile
+          title={"Profile details"}
+          profile={myInfo}
+          onSave={(updateUser) => handleUpdateProfile(myInfo.id, updateUser)}
+        />
+      </div>
       <div className="col-xl-7">
         <Routes>
           {/* Truyền danh sách hóa đơn và callback khi hóa đơn được click */}
           <Route
             path="/"
-            element={<MyBill title={"List of all your bills"} bills={bills} onBillClick={handleBillClick} loading={loading} />}
+            element={
+              <MyBill
+                title={"List of all your bills"}
+                bills={bills}
+                onBillClick={handleBillClick}
+                loading={loading}
+              />
+            }
           />
 
           {/* Hiển thị danh sách vé nếu hóa đơn được chọn */}
@@ -95,8 +140,8 @@ const ProfilePage = () => {
           />
         </Routes>
       </div>
+      <Footer />
     </div>
-    </>
   );
 };
 

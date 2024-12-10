@@ -24,7 +24,7 @@ const MovieCard = ({ title, movie }) => {
             </p>
             <p className="movie-card-language">Language: {item.language}</p>
             <div className="movie-card-rating">
-              Rating: {item.rating}
+              Rating: {item.rating.toFixed(1)}
             </div>
           </div>
         </div>

@@ -14,6 +14,8 @@ import {
 } from "../../../api/apiMovie";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
+import Loading from "../../User/loading/Loading";
+import { useNotificationModal } from "../../User/notificationModal/NotificationModal";
 
 const Movie = () => {
   const [movies, setMovies] = useState([]);
@@ -24,6 +26,8 @@ const Movie = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { openModal, ModalComponent } = useNotificationModal();
+
 
   useEffect(() => {
     fetchAllMovie();
@@ -45,55 +49,91 @@ const Movie = () => {
       setError(null);
       await addMovie(movie);
       fetchAllMovie();
-      alert("Successfully!");
+      openModal({
+        type: 'success',
+        title: 'Movie Added',
+        message: 'The movie has been added successfully!',
+      });
     } catch (error) {
       setError(error.message);
-      alert(error.message);
+      openModal({
+        type: 'error',
+        title: 'Error Adding Movie',
+        message: `An error occurred: ${error.message}`,
+      });
     }
   };
+  
 
   const handleUpdateMovie = async (id, updatedMovie) => {
     try {
       setError(null);
       await updateMovie(id, updatedMovie);
       fetchAllMovie();
-      alert("Successfully!");
+      openModal({
+        type: 'success',
+        title: 'Movie Updated',
+        message: 'The movie has been updated successfully!',
+      });
     } catch (error) {
       setError(error.message);
-      alert(error.message);
+      openModal({
+        type: 'error',
+        title: 'Error Updating Movie',
+        message: `An error occurred: ${error.message}`,
+      });
     }
   };
+  
 
   const handleDeleteMovie = async (id) => {
     try {
       setError(null);
       await deleteMovie(id);
-
       fetchAllMovie();
-      alert("Successfully!");
+      openModal({
+        type: 'success',
+        title: 'Movie Deleted',
+        message: 'The movie has been deleted successfully!',
+      });
     } catch (error) {
       setError(error.message);
-      alert(error.message);
+      openModal({
+        type: 'error',
+        title: 'Error Deleting Movie',
+        message: `An error occurred: ${error.message}`,
+      });
     }
   };
+  
 
   const handleAddScheduleByMovie = async (id, newSchedule) => {
     try {
       setError(null);
       await addScheduleByMovie(id, newSchedule);
-      alert("Successfully!");
+      openModal({
+        type: 'success',
+        title: 'Schedule Added',
+        message: 'The schedule has been added successfully!',
+      });
     } catch (error) {
       setError(error.message);
-      alert(error.message);
+      openModal({
+        type: 'error',
+        title: 'Error Adding Schedule',
+        message: `An error occurred: ${error.message}`,
+      });
     }
   };
+  
 
   if (loading) {
-    return <div>Đang tải dữ liệu...</div>;
+    return <Loading text="Loading movie list..."/>
   }
 
   return (
     <div className="movie-container">
+      <ModalComponent />
       <div className="movie-header">
         <div className="add-button-container">
           <button

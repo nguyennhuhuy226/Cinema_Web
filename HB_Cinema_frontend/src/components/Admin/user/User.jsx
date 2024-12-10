@@ -12,6 +12,8 @@ import "./user.css";
 import AddUser from "../modal-admin/AddUser";
 import EditUser from "../modal-admin/EditUser";
 import DeleteUser from "../modal-admin/DeleteUser";
+import { useNotificationModal } from "../../User/notificationModal/NotificationModal";
+import Loading from "../../User/loading/Loading";
 
 const User = () => {
   const [users, setUsers] = useState([]);
@@ -21,6 +23,8 @@ const User = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { openModal, ModalComponent } = useNotificationModal();
+
 
   useEffect(() => {
     fetchAllUsers();
@@ -42,52 +46,86 @@ const User = () => {
       setError(null);
       await addUser(newUser);
       fetchAllUsers();
-      alert("Successfully!");
+      // Show success notification
+      openModal({
+        type: 'success',
+        title: 'User Added',
+        message: 'The user has been added successfully!',
+      });
     } catch (error) {
       setError(error.message);
-      alert(error.message);
+      // Show error notification
+      openModal({
+        type: 'error',
+        title: 'Error Adding User',
+        message: `An error occurred: ${error.message}`,
+      });
     }
   };
+  
 
   const handleUpdateUser = async (id, updatedUser) => {
     try {
       const payload = {
-        username: updatedUser.username, // Lấy từ form
-        firstName: updatedUser.firstName, // Lấy từ form
-        lastName: updatedUser.lastName, // Lấy từ form
-        email: updatedUser.email, // Lấy từ form
-        phoneNumber: updatedUser.phoneNumber, // Lấy từ form
-        address: updatedUser.address, // Lấy từ form
-        dob: new Date(updatedUser.dob).toISOString().split("T")[0], // Định dạng YYYY-MM-DD
+        username: updatedUser.username,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        email: updatedUser.email,
+        phoneNumber: updatedUser.phoneNumber,
+        address: updatedUser.address,
+        dob: new Date(updatedUser.dob).toISOString().split("T")[0],
       };
       setError(null);
       await updateUser(id, payload);
       fetchAllUsers();
-      alert("Successfully!");
+      // Show success notification
+      openModal({
+        type: 'success',
+        title: 'User Updated',
+        message: 'The user has been updated successfully!',
+      });
     } catch (error) {
       setError(error.message);
-      alert(error.message);
+      // Show error notification
+      openModal({
+        type: 'error',
+        title: 'Error Updating User',
+        message: `An error occurred: ${error.message}`,
+      });
     }
   };
+  
 
   const handleDeleteUser = async (id) => {
     try {
       setError(null);
       await deleteUser(id);
       fetchAllUsers();
-      alert("Successfully!");
+      // Show success notification
+      openModal({
+        type: 'success',
+        title: 'User Deleted',
+        message: 'The user has been deleted successfully!',
+      });
     } catch (error) {
       setError(error.message);
-      alert(error.message);
+      // Show error notification
+      openModal({
+        type: 'error',
+        title: 'Error Deleting User',
+        message: `An error occurred: ${error.message}`,
+      });
     }
   };
+  
 
   if (loading) {
-    return <div>Đang tải dữ liệu...</div>;
+    return <Loading text="Loading user list..."/>
   }
 
   return (
     <div className="user-container">
+       <ModalComponent />
       <div className="row">
         <div className="flex items-center justify-between mb-4 row">
           <div className="flex items-center space-x-2 col-xl-6">

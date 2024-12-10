@@ -41,7 +41,7 @@ const TopMovie = ({ movie }) => {
     {currentMovies.map((movie) => (
       <div className="top-movie-card" key={movie.id}>
         {/* Rating ở góc phải */}
-        <div className="top-movie-rating">{movie.rating}</div>
+        <div className="top-movie-rating">{movie.rating.toFixed(1)}</div>
         <img src={movie.image} alt={movie.title} className="top-movie-image" />
         <div className="top-movie-info">
           <h2 className="top-movie-title">{movie.title}</h2>

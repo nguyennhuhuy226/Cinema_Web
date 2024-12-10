@@ -75,7 +75,7 @@ const Header = ({ data, onLogout }) => {
                 placeholder="Search movies..." 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="search-input"
+                className="search__input"
               />
               <button type="submit" className="search-button">
                 <i className="bx bx-search"></i>
