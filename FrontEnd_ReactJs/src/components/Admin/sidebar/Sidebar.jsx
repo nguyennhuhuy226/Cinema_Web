@@ -49,7 +49,7 @@ export default function SidebarAdmin() {
       <div className="sidebar-profile">
         <UserCircleIcon className="profile-icon" />
         <div className="profile-text">
-          <h2 className="text-gray-700">{myInfo.username}</h2>
+          <h2 className="text-gray-700">{myInfo.firstName}</h2>
           <p className="text-gray-700">Admin</p>
         </div>
         <button className="logout-button" onClick={handleLogout}>
@@ -59,14 +59,14 @@ export default function SidebarAdmin() {
 
       {/* Menu Items */}
       <div className="menu-items">
-        {/* <NavLink
+        <NavLink
           to="/admin/dashboard"
           className={({ isActive }) => `menu-item ${isActive ? "active" : ""}`}
           onClick={() => setActiveMenu("dashboard")}
         >
           <ChartPieIcon className="menu-item-icon" />
           <span className="menu-item-text">Dashboard</span>
-        </NavLink> */}
+        </NavLink>
 
         <NavLink
           to="/admin/user"

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // Để lấy branchId từ URL
+import { useNavigate, useParams } from 'react-router-dom'; // Để lấy branchId từ URL
 import { getToken } from '../../../api/localStorage'; // Giả sử bạn đã có service để lấy JWT từ localStorage
 import "./room.css"
 
@@ -7,6 +7,7 @@ import "./room.css"
 
 
 const Room = () => {
+        const navigate = useNavigate();
     const { id } = useParams(); // Lấy branchId từ URL
     const [rooms, setRooms] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -41,6 +42,11 @@ const Room = () => {
         fetchRooms();
     }, [id]); // useEffect chỉ gọi lại khi `branchId` thay đổi
 
+       // xem ghe
+       const handleViewSeat = (scheduleId) => {
+        navigate(`/admin/branch/rooms/seats/${scheduleId}`); 
+    }
+
     if (loading) {
         return <div>Đang tải dữ liệu...</div>;
     }
@@ -55,6 +61,7 @@ const Room = () => {
                 <div
                     key={room.id}
                     className="bg-white shadow-md rounded-lg overflow-hidden"
+                    onClick={() => handleViewSeat(room.id)}
                 >
                     <img
                         src={room.imgURL}

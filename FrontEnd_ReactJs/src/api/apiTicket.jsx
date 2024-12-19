@@ -1,5 +1,17 @@
 import { requestPrivate } from "./request";
 
+//Lấy tất cả vé
+export const getAllTicket = async () => {
+  try {
+    const reponse = await requestPrivate.get(`/tickets`);
+    return reponse.data;
+  } catch (error) {
+    console.error("API Error:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || "Failed to get ticket");
+  }
+};
+
+
 // Tạo vé mới(người dùng nhấn nút mua)
 export const createTicket = async (ticket) => {
   try {

@@ -9,6 +9,8 @@ import User from "../components/Admin/user/User";
 import Dashboard from "../components/Admin/dashboard/Dashboard";
 import Room from "../components/Admin/room/Room";
 import Schedule from "../components/Admin/schedule/Schedule";
+import SeatSchedule from "../components/Admin/seat/SeatSchedule";
+import SeatRoom from "../components/Admin/seat/SeatRoom";
 
 const AdminRoutes = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -88,6 +90,11 @@ const AdminRoutes = () => {
             <Route path="/branch" element={<Branch />} />
             <Route path="/branch/rooms/:id" element={<Room />} />
             <Route path="/schedule" element={<Schedule />} />
+            <Route path="/schedule/seats/:id" element={<SeatSchedule />} />
+            <Route path="/branch/rooms/seats/:id" element={<SeatRoom />} />
+
+           
+
           </Routes>
         </div>
       </div>

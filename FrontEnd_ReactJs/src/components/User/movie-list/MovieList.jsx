@@ -65,7 +65,7 @@ const MovieList = ({ title, data, onMovieClick }) => {
                 <p>{movie.title}</p>
                 <div className="rating">
                   <FaStar />
-                  <span>{movie.rating}</span>
+                  <span>{movie.rating.toFixed(1)}</span>
                 </div>
               </div>
             </div>

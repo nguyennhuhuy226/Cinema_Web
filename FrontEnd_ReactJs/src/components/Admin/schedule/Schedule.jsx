@@ -9,9 +9,11 @@ import EditSchedule from "../modal-admin/EditSchedule";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useNotificationModal } from "../../User/notificationModal/NotificationModal";
 import Loading from "../../User/loading/Loading";
+import { useNavigate } from "react-router-dom";
 
 
 const Schedule = () => {
+    const navigate = useNavigate();
     const [schedules, setSchedules] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -133,6 +135,10 @@ const Schedule = () => {
         }
     };
     
+    // xem ghe
+    const handleViewSeat = (scheduleId) => {
+        navigate(`/admin/schedule/seats/${scheduleId}`); 
+    }
 
     // Get unique branches
     const branches = ["All", ...new Set(schedules.map(schedule => schedule.branchName))];
@@ -205,7 +211,7 @@ const Schedule = () => {
                     {Object.entries(groupedSchedules).map(([date, dailySchedules]) => (
                         <div key={date} className="schedule-day">
                             {dailySchedules.map(schedule => (
-                                <div key={schedule.id} className="schedule-item">
+                                <div key={schedule.id} className="schedule-item" onClick={() => handleViewSeat(schedule.id)}>
                                     <div className="schedule-time">{formatTime(schedule.startDateTime)}</div>
                                     <div className="schedule-details">
                                         <h3 className="movie-name">{schedule.movieName}</h3>

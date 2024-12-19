@@ -25,7 +25,6 @@ const User = () => {
   const [error, setError] = useState(null);
   const { openModal, ModalComponent } = useNotificationModal();
 
-
   useEffect(() => {
     fetchAllUsers();
   }, []);
@@ -36,6 +35,7 @@ const User = () => {
       const data = await getAllUser();
       setUsers(data.result);
       setLoading(false);
+      console.log(data.result);
     } catch (error) {
       setError(error.message);
     }
@@ -48,21 +48,20 @@ const User = () => {
       fetchAllUsers();
       // Show success notification
       openModal({
-        type: 'success',
-        title: 'User Added',
-        message: 'The user has been added successfully!',
+        type: "success",
+        title: "User Added",
+        message: "The user has been added successfully!",
       });
     } catch (error) {
       setError(error.message);
       // Show error notification
       openModal({
-        type: 'error',
-        title: 'Error Adding User',
+        type: "error",
+        title: "Error Adding User",
         message: `An error occurred: ${error.message}`,
       });
     }
   };
-  
 
   const handleUpdateUser = async (id, updatedUser) => {
     try {
@@ -80,21 +79,20 @@ const User = () => {
       fetchAllUsers();
       // Show success notification
       openModal({
-        type: 'success',
-        title: 'User Updated',
-        message: 'The user has been updated successfully!',
+        type: "success",
+        title: "User Updated",
+        message: "The user has been updated successfully!",
       });
     } catch (error) {
       setError(error.message);
       // Show error notification
       openModal({
-        type: 'error',
-        title: 'Error Updating User',
+        type: "error",
+        title: "Error Updating User",
         message: `An error occurred: ${error.message}`,
       });
     }
   };
-  
 
   const handleDeleteUser = async (id) => {
     try {
@@ -103,29 +101,28 @@ const User = () => {
       fetchAllUsers();
       // Show success notification
       openModal({
-        type: 'success',
-        title: 'User Deleted',
-        message: 'The user has been deleted successfully!',
+        type: "success",
+        title: "User Deleted",
+        message: "The user has been deleted successfully!",
       });
     } catch (error) {
       setError(error.message);
       // Show error notification
       openModal({
-        type: 'error',
-        title: 'Error Deleting User',
+        type: "error",
+        title: "Error Deleting User",
         message: `An error occurred: ${error.message}`,
       });
     }
   };
-  
 
   if (loading) {
-    return <Loading text="Loading user list..."/>
+    return <Loading text="Loading user list..." />;
   }
 
   return (
     <div className="user-container">
-       <ModalComponent />
+      <ModalComponent />
       <div className="row">
         <div className="flex items-center justify-between mb-4 row">
           <div className="flex items-center space-x-2 col-xl-6">
@@ -157,39 +154,43 @@ const User = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => (
-                  <tr key={user.id}>
-                    <td>{user.username}</td>
-                    <td>********</td>
-                    <td>
-                      {user.firstName} {user.lastName}
-                    </td>
-                    <td>{user.phoneNumber}</td>
-                    <td>{user.email}</td>
-                    <td>{user.address}</td>
-                    <td>{user.dob}</td>
-                    <td className="user-table-actions">
-                      <button
-                        className="action-button edit"
-                        onClick={() => {
-                          setSelectedUser(user);
-                          setIsEditModalOpen(true);
-                        }}
-                      >
-                        <MdEdit className="h-4 w-4" />
-                      </button>
-                      <button
-                        className="action-button delete"
-                        onClick={() => {
-                          setSelectedUser(user);
-                          setIsDeleteModalOpen(true);
-                        }}
-                      >
-                        <MdDelete className="h-4 w-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {users
+                  .filter(
+                    (user) => !user.roles.some((role) => role.name === "ADMIN")
+                  ) // Loại bỏ người dùng có vai trò ADMIN
+                  .map((user) => (
+                    <tr key={user.id}>
+                      <td>{user.username}</td>
+                      <td>********</td>
+                      <td>
+                        {user.firstName} {user.lastName}
+                      </td>
+                      <td>{user.phoneNumber}</td>
+                      <td>{user.email}</td>
+                      <td>{user.address}</td>
+                      <td>{user.dob}</td>
+                      <td className="user-table-actions">
+                        <button
+                          className="action-button edit"
+                          onClick={() => {
+                            setSelectedUser(user);
+                            setIsEditModalOpen(true);
+                          }}
+                        >
+                          <MdEdit className="h-4 w-4" />
+                        </button>
+                        <button
+                          className="action-button delete"
+                          onClick={() => {
+                            setSelectedUser(user);
+                            setIsDeleteModalOpen(true);
+                          }}
+                        >
+                          <MdDelete className="h-4 w-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </PerfectScrollbar>
