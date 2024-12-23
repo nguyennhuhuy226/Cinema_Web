@@ -21,6 +21,14 @@
   max-width: 42rem; /* Increased from 32rem to match the movie modal width */
 }
 
+.modal-container-seat {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 22rem;
+} 
+
 /* Modal Header */
 .modal-header {
   font-size: 1.25rem;
@@ -114,4 +122,9 @@
 /* Utility Classes */
 .col-span-2 {
   grid-column: span 2;
+}
+
+.image-preview {
+  max-width: 120px;
+  grid-row: span 2;
 }

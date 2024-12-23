@@ -1,5 +1,6 @@
 import { request, requestPrivate } from "./request"
 
+
 export const getSeat = async (id) => {
   try {
     const reponse = await request.get(`/seats/schedule/${id}`);
@@ -10,7 +11,7 @@ export const getSeat = async (id) => {
   }
 };
 
-
+//Lấy ghế theo lịch
 export const getSeatBySchedule = async (id) => {
   try {
     const reponse = await requestPrivate.get(`/schedule_seat/schedule/${id}`);
@@ -21,3 +22,14 @@ export const getSeatBySchedule = async (id) => {
   }
 };
 
+//Sửa ghế
+export const updateSeat = async (id, seat) => {
+  try {
+    console.log("Request update seat ", seat);
+    const response = await requestPrivate.put(`/seats/${id}`, seat);
+    return response.data;
+  } catch (error) {
+    console.error("API Error:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.message || "Failed to update seat");
+  }
+}

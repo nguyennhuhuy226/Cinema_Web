@@ -11,6 +11,12 @@ import Room from "../components/Admin/room/Room";
 import Schedule from "../components/Admin/schedule/Schedule";
 import SeatSchedule from "../components/Admin/seat/SeatSchedule";
 import SeatRoom from "../components/Admin/seat/SeatRoom";
+import SellTicket from "../components/Admin/sell-ticket/SellTicket";
+import SelectedSeatSell from "../components/Admin/selected-seat/SelectedSeatSell";
+import MyTicket from "../components/Admin/my-ticket/MyTicket";
+import AllBill from "../components/Admin/all-bill/AllBill";
+import MyBillAdmin from "../components/Admin/my-bill/MyBill";
+import BillUser from "../components/Admin/bill-user/BillUser";
 
 const AdminRoutes = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -46,9 +52,9 @@ const AdminRoutes = () => {
               <FiMenu />
             </button>
             <nav className="ml-4 space-x-4">
-              {/* <Link to="/admin/dashboard" className="hover:text-blue-500">
+              <Link to="/admin/dashboard" className="hover:text-blue-500">
                 Dashboard
-              </Link> */}
+              </Link>
               <Link to="/admin/user" className="hover:text-blue-500">
                 Customer
               </Link>
@@ -63,15 +69,6 @@ const AdminRoutes = () => {
               </Link>
             </nav>
           </div>
-          {/* Search Box */}
-          {/* <div className="relative py-2 right-3">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full px-4 py-2 rounded-lg bg-white text-black placeholder-gray-500 outline-none border border-gray-500 focus:border-blue-500"
-            />
-            <MagnifyingGlassIcon type="button" className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500" />
-          </div> */}
         </div>
 
         {/* Nội dung chính */}
@@ -89,12 +86,15 @@ const AdminRoutes = () => {
             <Route path="/movie" element={<Movie />} />
             <Route path="/branch" element={<Branch />} />
             <Route path="/branch/rooms/:id" element={<Room />} />
+            <Route path="/branch/rooms/seats/:id" element={<SeatRoom />} />
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/schedule/seats/:id" element={<SeatSchedule />} />
-            <Route path="/branch/rooms/seats/:id" element={<SeatRoom />} />
-
-           
-
+           < Route path="/sell-ticket" element={<SellTicket />} />
+           < Route path="/sell-ticket/:id" element={<SelectedSeatSell />} />
+           < Route path="/my-bill" element={<MyBillAdmin />} />
+           < Route path="/my-ticket/:id" element={<MyTicket />} />
+           < Route path="/all-bill" element={<AllBill />} /> 
+           < Route path="/bill-user/:id" element={<BillUser />} /> 
           </Routes>
         </div>
       </div>

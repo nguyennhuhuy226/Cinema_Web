@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getSeat, getSeatBySchedule } from "../../../api/apiSeat";
-import "./selectedSeat.css";
 import { createTicket } from "../../../api/apiTicket";
-import BillModal from "../modal-bill/BillModal";
-import Loading from "../loading/Loading";
 import { goToVNPay } from "../../../api/apiVNPay";
-import { useNotificationModal } from "../notificationModal/NotificationModal";
-import { setBookingDataStorage } from "../../../api/dataBookingStorage";
+import { getBookingDataStorage, setBookingDataStorage } from "../../../api/dataBookingStorage";
+import "./selected-seat-sell.css";
+import { useNotificationModal } from "../../User/notificationModal/NotificationModal";
+import Loading from "../../User/loading/Loading";
+import BillModal from "../../User/modal-bill/BillModal";
 
-const SelectedSeat = () => {
+
+const SelectedSeatSell = () => {
   const { id } = useParams();
   const [scheduleInfo, setScheduleInfo] = useState([]);
   const navigate = useNavigate();
@@ -49,12 +50,12 @@ const SelectedSeat = () => {
     try {
       setError(null);
       const data = await getSeatBySchedule(id);
-      console.log(data);
+      console.log(data)
       setScheduleInfo(data.result[0]);
       setLoading(false);
     } catch (error) {
       setError(error.message);
-      console.log("noooooo");
+      console.log("noooooo")
     }
   };
 
@@ -81,21 +82,21 @@ const SelectedSeat = () => {
   }, [selectedSeats, selectedCombos]);
 
   const getSeatClassName = (seat) => {
-    const baseClasses = ["seat-button"];
+    const baseClasses = ["sell-seat-button"];
     baseClasses.push(
-      seat.seatType === "Couple" ? "seat-couple" : "seat-single"
+      seat.seatType === "Couple" ? "sell-seat-couple" : "sell-seat-single"
     );
 
     if (seat.booked) {
-      baseClasses.push("seat-booked");
+      baseClasses.push("sell-seat-booked");
     } else if (selectedSeats.find((s) => s.id === seat.id)) {
-      baseClasses.push("seat-selected");
+      baseClasses.push("sell-seat-selected");
     } else if (seat.seatType === "Couple") {
-      baseClasses.push("seat-couple");
+      baseClasses.push("sell-seat-couple");
     } else if (seat.seatType === "VIP") {
-      baseClasses.push("seat-vip");
+      baseClasses.push("sell-seat-vip");
     } else {
-      baseClasses.push("seat-standard");
+      baseClasses.push("sell-seat-standard");
     }
 
     return baseClasses.join(" ");
@@ -107,7 +108,7 @@ const SelectedSeat = () => {
       name: seat.name,
       seatId: seat.id,
       scheduleId: scheduleId, // Sử dụng scheduleId ở đây
-      price: seat.price,
+      price: seat.price
     }));
   };
 
@@ -157,8 +158,22 @@ const SelectedSeat = () => {
     }
   };
 
-  const handleGoToVNPay = () => {
-    window.open(urlVNPay, "_blank"); // Open the external link in a new tab
+  const handleCreateTicket = () => {
+        try {
+          setError(null);
+          const dataBooking = getBookingDataStorage();
+          const data = createTicket(dataBooking);
+          setLoading(false);
+          setIsBillModal(false)
+          openModal({ type: "success", title: "Successfully", message: "Ticket created successfully, please print ticket for customer" });
+        } catch (error) {
+          setIsBillModal(false)
+          setError(error.message);
+          openModal({ type: "error", title: "Error", message: error.message });
+        } finally {
+          setLoading(false);
+          fetchSeat();
+        }
   };
 
   if (loading) {
@@ -166,14 +181,14 @@ const SelectedSeat = () => {
   }
 
   return (
-    <div className="container row seat-container">
+    <div className="sell-container row seat-container">
       <ModalComponent />
-      <div className="col-xl-6">
-        <div className="screen">
-          <div className="screen-display">Screen</div>
+      <div className="sell-col-xl-6">
+        <div className="sell-screen">
+          <div className="sell-screen-display">Screen</div>
         </div>
 
-        <div className="seats-grid">
+        <div className="sell-seats-grid">
           {seats.map((seat) => (
             <button
               key={seat.id}
@@ -181,59 +196,59 @@ const SelectedSeat = () => {
               disabled={seat.booked}
               className={getSeatClassName(seat)}
             >
-              <span className="seat-name">{seat.name}</span>
-              <span className="seat-price">${seat.price}</span>
+              <span className="sell-seat-name">{seat.name}</span>
+              <span className="sell-seat-price">${seat.price}</span>
             </button>
           ))}
         </div>
 
-        <div className="seat-legend">
-          <div className="legend-item">
-            <div className="legend-color seat-standard"></div>
+        <div className="sell-seat-legend">
+          <div className="sell-legend-item">
+            <div className="sell-legend-color seat-standard"></div>
             <span>Standard Seat</span>
           </div>
-          <div className="legend-item">
-            <div className="legend-color seat-vip"></div>
+          <div className="sell-legend-item">
+            <div className="sell-legend-color seat-vip"></div>
             <span>VIP Seat</span>
           </div>
-          <div className="legend-item">
-            <div className="legend-color seat-couple"></div>
+          <div className="sell-legend-item">
+            <div className="sell-legend-color seat-couple"></div>
             <span>Couple Seat</span>
           </div>
-          <div className="legend-item">
-            <div className="legend-color seat-booked"></div>
+          <div className="sell-legend-item">
+            <div className="sell-legend-color seat-booked"></div>
             <span>Booked</span>
           </div>
-          <div className="legend-item">
-            <div className="legend-color seat-selected"></div>
+          <div className="sell-legend-item">
+            <div className="sell-legend-color seat-selected"></div>
             <span>Selected</span>
           </div>
         </div>
       </div>
-      <div className="space col-xl-1"></div>
-      <div className="col-xl-5">
-        <div className="combo-container">
-          <h3 className="font-medium mb-4">Select Combo</h3>
-          <div className="combo-grid">
+      <div className="sell-space col-xl-1"></div>
+      <div className="sell-col-xl-5">
+        <div className="sell-combo-container">
+          <h3 className="sell-font-medium mb-4">Select Combo</h3>
+          <div className="sell-combo-grid">
             {combos.map((combo, index) => (
-              <div key={index} className="combo-item">
-                <div className="combo-image">
+              <div key={index} className="sell-combo-item">
+                <div className="sell-combo-image">
                   {/* Placeholder for image */}
                   <img
                     src={`/images/combo-${index + 1}.png`}
                     alt={combo.name}
-                    className="combo-img"
+                    className="sell-combo-img"
                   />
                 </div>
-                <div className="combo-info">
-                  <span className="combo-name">{combo.name}</span>
-                  <span className="combo-price">
+                <div className="sell-combo-info">
+                  <span className="sell-combo-name">{combo.name}</span>
+                  <span className="sell-combo-price">
                     {combo.price.toLocaleString()}$
                   </span>
                 </div>
-                <div className="combo-controls">
+                <div className="sell-combo-controls">
                   <button
-                    className="quantity-btn"
+                    className="sell-quantity-btn"
                     onClick={() => {
                       setSelectedCombos((prev) => {
                         const existing = prev.find(
@@ -254,12 +269,12 @@ const SelectedSeat = () => {
                   >
                     -
                   </button>
-                  <span className="quantity-display">
+                  <span className="sell-quantity-display">
                     {selectedCombos.find((c) => c.name === combo.name)
                       ?.quantity || 0}
                   </span>
                   <button
-                    className="quantity-btn"
+                    className="sell-quantity-btn"
                     onClick={() => {
                       setSelectedCombos((prev) => {
                         const existing = prev.find(
@@ -283,23 +298,23 @@ const SelectedSeat = () => {
             ))}
           </div>
         </div>
-        <div className="summary-container">
-          <div className="summary-content">
+        <div className="sell-summary-container">
+          <div className="sell-summary-content">
             <div>
-              <h3 className="font-medium">Selected Seat:</h3>
-              <p className="text-sm">
+              <h3 className="sell-font-medium">Selected Seat:</h3>
+              <p className="sell-text-sm">
                 {selectedSeats.length > 0
                   ? selectedSeats.map((seat) => seat.name).join(", ")
                   : "Not selected seat"}
               </p>
             </div>
-            <div className="text-right">
-              <p className="font-medium">Total Price:</p>
-              <p className="text-lg font-bold">${totalPrice}</p>
+            <div className="sell-text-right">
+              <p className="sell-font-medium">Total Price:</p>
+              <p className="sell-text-lg font-bold">${totalPrice}</p>
             </div>
           </div>
           <button
-            className="book-button"
+            className="sell-book-button"
             disabled={selectedSeats.length === 0}
             onClick={handleBookTickets}
           >
@@ -309,15 +324,15 @@ const SelectedSeat = () => {
       </div>
       {isBillModal && (
         <BillModal
+        title={"Collect money from customers"}
+        btn={"Money collected"}
           bill={bill} // Truyền dữ liệu hóa đơn
-          title={"Payment Details"}
-          btn={"Pay with VNPay"}
           onClose={() => setIsBillModal(false)}
-          goVNPay={handleGoToVNPay} // Đóng modal khi bấm nút Đóng
+          goVNPay={handleCreateTicket} // Đóng modal khi bấm nút Đóng
         />
       )}
     </div>
   );
 };
 
-export default SelectedSeat;
+export default SelectedSeatSell;

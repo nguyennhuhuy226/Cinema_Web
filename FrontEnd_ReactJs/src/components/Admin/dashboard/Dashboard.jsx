@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Film, RefreshCcw, BadgeDollarSign, User, Calendar } from "lucide-react";
-import { FaDollarSign } from "react-icons/fa";
-import { IoTicketOutline } from "react-icons/io5";
+import {
+  Film,
+  RefreshCcw,
+  BadgeDollarSign,
+  User,
+  Calendar,
+  Star,
+  Ticket,
+} from "lucide-react";
+import { FaDollarSign, FaMoneyBill, FaMoneyBillWave } from "react-icons/fa";
+import { IoTicket, IoTicketOutline } from "react-icons/io5";
 import { getAllTicket } from "../../../api/apiTicket";
 import { getAllUser } from "../../../api/apiUser";
 import { getAllMovie } from "../../../api/apiMovie";
@@ -15,7 +23,9 @@ const Dashboard = () => {
   const totalTicket = tickets.length;
   const totalUser = users.length;
   const totalMovie = movies.length;
-
+  const sortedMovie = Object.values(movies).sort((a, b) => b.rating - a.rating);
+  const movieByRating = limitData(sortedMovie, 5);
+  const userByTicket = limitData(users, 5);
   useEffect(() => {
     fetchAllTicket();
     fetchAllUsers();
@@ -51,16 +61,20 @@ const Dashboard = () => {
       console.error("Error fetching all movie :", error);
     }
   };
+  //Hàm giới hạn dữ liệu
+  function limitData(data, limit) {
+    if (!Array.isArray(data)) {
+      throw new Error("Dữ liệu phải là một mảng");
+    }
+    if (typeof limit !== "number" || limit <= 0) {
+      throw new Error("Giới hạn phải là một số dương");
+    }
+    return data.slice(0, limit);
+  }
 
   // Xử lý dữ liệu
-  const processRevenueByMovie = (data) => {
-    if (!Array.isArray(data)) {
-      console.error("Input data is not an array:", data);
-      return [];
-    }
-
+  const processDataRevenueByMovie = (data) => {
     const movieMap = {};
-
     // Đếm số vé bán cho mỗi phim và tính tổng tiền
     data.forEach(({ scheduleDetails, price }) => {
       const movie = scheduleDetails?.movie; // Kiểm tra an toàn nếu scheduleDetails hoặc movie bị undefined
@@ -93,16 +107,12 @@ const Dashboard = () => {
     return sortedMovies; // Trả về danh sách phim đã sắp xếp với trường 'top' và 'totalRevenue'
   };
 
-  const RevenueByMovie = processRevenueByMovie(tickets);
+  const DataRevenueByMovie = processDataRevenueByMovie(tickets);
+  const RevenueByMovie = limitData(DataRevenueByMovie, 5);
 
   console.log(RevenueByMovie);
 
   const processRevenueByBranch = (data) => {
-    if (!Array.isArray(data)) {
-      console.error("Input data is not an array:", data);
-      return [];
-    }
-
     const branchMap = {};
 
     // Đếm số vé bán cho mỗi phim và tính tổng tiền
@@ -253,6 +263,96 @@ const Dashboard = () => {
     </div>
   );
 
+  const ItemsTableTopMovie = ({ title, items, showViewAll = true }) => (
+    <div className="bg-white rounded-lg p-4 shadow-md">
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex items-center">
+          <Film className="text-orange-500 w-5 h-5 mr-2" />
+          <h2 className="text-gray-800 text-lg font-semibold">{title}</h2>
+        </div>
+        {showViewAll && (
+          <button className="flex items-center text-gray-600 hover:text-orange-500 transition-colors">
+            <span className="mr-2">View All</span>
+            <RefreshCcw className="w-4 h-4" />
+          </button>
+        )}
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="text-gray-600 text-sm">
+              <th className="text-left py-2 px-4">ID</th>
+              <th className="text-left py-2 px-4">MOVIE</th>
+              <th className="text-left py-2 px-4">LANGUAGE</th>
+              <th className="text-left py-2 px-4">RATING</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item) => (
+              <tr
+                key={item.id}
+                className="border-t border-gray-100 hover:bg-orange-50 transition-colors"
+              >
+                <td className="py-2 px-4 text-gray-800">{item.id}</td>
+                <td className="py-2 px-4 text-gray-800">{item.title}</td>
+                <td className="py-2 px-4 text-gray-800">{item.language}</td>
+                <td className="py-2 px-4 flex items-center text-gray-800">
+                  <Star className="text-orange-500 w-4 h-4 mr-1" />
+                  {item.rating.toFixed(1)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+  const ItemsTablUser = ({ title, items, showViewAll = true }) => (
+    <div className="bg-white rounded-lg p-4 shadow-md">
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex items-center">
+          <User className="text-orange-500 w-5 h-5 mr-2" />
+          <h2 className="text-gray-800 text-lg font-semibold">{title}</h2>
+        </div>
+        {showViewAll && (
+          <button className="flex items-center text-gray-600 hover:text-orange-500 transition-colors">
+            <span className="mr-2">View All</span>
+            <RefreshCcw className="w-4 h-4" />
+          </button>
+        )}
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="text-gray-600 text-sm">
+              <th className="text-left py-2 px-4">NAME</th>
+              <th className="text-left py-2 px-4">MAIL</th>
+              <th className="text-left py-2 px-4">TICKET</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item) => (
+              <tr
+                key={item.id}
+                className="border-t border-gray-100 hover:bg-orange-50 transition-colors"
+              >
+                <td className="py-2 px-4 text-gray-800">
+                  {item.firstName + " "}
+                  {item.lastName}
+                </td>
+                <td className="py-2 px-4 text-gray-800">{item.email}</td>
+                <td className="py-2 px-4 flex items-center text-gray-800">
+                  <IoTicket className="text-orange-500 w-4 h-4 mr-1" />
+                  {5}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -260,7 +360,7 @@ const Dashboard = () => {
           title="Revenue this month"
           value={totalRevenue}
           change={-25}
-          icon={BadgeDollarSign}
+          icon={FaMoneyBillWave}
         />
         <StatCard
           title="Total tickets sold this month"
@@ -284,6 +384,13 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ItemsTableMovie title="Revenue per movie" items={RevenueByMovie} />
         <ItemsTableBranch title="Revenue per branch" items={RevenueByBranch} />
+        <ItemsTableTopMovie title="Top rating" items={movieByRating} />
+        <ItemsTablUser
+          title="Top users"
+          items={userByTicket.filter(
+            (user) => !user.roles.some((role) => role.name === "ADMIN")
+          )}
+        />
       </div>
     </div>
   );

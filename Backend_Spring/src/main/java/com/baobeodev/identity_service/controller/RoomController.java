@@ -17,7 +17,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 @RequiredArgsConstructor
 public class RoomController {
-   RoomService roomService;
+    RoomService roomService;
     @GetMapping("/branch/{branchId}")
     public ApiResponse<List<RoomResponse>> getRoomsByBranch(@PathVariable int branchId) {
         List<RoomResponse> rooms = roomService.getRoomsByBranch(branchId);
@@ -25,6 +25,13 @@ public class RoomController {
                 .result(rooms)
                 .build();
     }
+    @GetMapping
+    public ApiResponse<List<RoomResponse>> getRooms(){
+        return ApiResponse.<List<RoomResponse>>builder()
+                .result(roomService.getRooms())
+                .build();
+    }
+
 
     @PostMapping
     public ApiResponse<RoomResponse> createRoom(@RequestBody RoomRequest roomRequest) {

@@ -20,4 +20,5 @@ public class SeatResponse {
     String seatType;
     double price;
 
+
 }

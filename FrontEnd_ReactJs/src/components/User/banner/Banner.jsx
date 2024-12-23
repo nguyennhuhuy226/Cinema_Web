@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import './banner.css'
 import IconRating from "../../../assets/images/rating.png";
 import IconRatingHalf from "../../../assets/images/rating-half.png";
 import ImgTemp from "../../../assets/images/venom.png";
 import Iconplay from "../../../assets/images/play-button.png";
 import { NavLink } from "react-router-dom";
+import { MovieContext } from "../../../context/MovieProvider";
 
 const Banner = () => {
+  const { handleTrailer } = useContext(MovieContext);
   return (
     <div className="banner">
       <div className="banner-overlay" />
@@ -31,7 +33,7 @@ const Banner = () => {
             </div>
           </div>
         </div>
-        <div className="banner-image-section">
+        <div className="banner-image-section"   onClick={() => handleTrailer(912649)}>
           <div className="banner-image-container">
             <img src={ImgTemp} alt="temp" className="banner-image" />
             <div className="banner-image-overlay">

@@ -25,6 +25,8 @@ export default function Login() {
       const userRole = decodedToken.scope;
       if (userRole === "ROLE_ADMIN") {
         navigate("/admin/dashboard");
+      } else if (userRole === "ROLE_STAFF") {
+        navigate("/admin/sell-ticket");
       } else {
         navigate("/");
       }

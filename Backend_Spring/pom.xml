@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.baobeodev</groupId>
-    <artifactId>identity-service</artifactId>
+    <artifactId>HB_cinema</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>identity-service</name>
     <description>identity-service</description>

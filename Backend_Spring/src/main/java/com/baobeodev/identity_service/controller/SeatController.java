@@ -30,4 +30,11 @@ public class SeatController {
                 .message("lấy ghế thành công")
                 .build();
     }
+    @PutMapping("/{seatId}")
+    public ApiResponse<SeatResponse> updateSeat(@RequestBody SeatRequest seatRequest,@PathVariable int seatId){
+        SeatResponse seatResponse =seatService.updateSeat(seatRequest,seatId);
+        return ApiResponse.<SeatResponse>builder()
+                .result(seatResponse)
+                .build();
+    }
 }

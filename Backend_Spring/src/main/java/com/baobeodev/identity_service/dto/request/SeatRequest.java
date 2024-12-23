@@ -14,7 +14,6 @@ import org.hibernate.annotations.OnDeleteAction;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SeatRequest {
     String name;
-    boolean booked;
     String seatType;
     double price;
     @ManyToOne

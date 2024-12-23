@@ -1,11 +1,13 @@
 import React from "react";
 import "./my-ticket.css";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Ticket = ({ ticket }) => {
+  const { id } = useParams();
   return (
     <div className="ticket-list">
       {ticket.map((ticket) => {
-        const { id, qrImageURL, seatName, scheduleDetails = {} } = ticket;
+        const { qrImageURL, seatName, scheduleDetails = {} } = ticket;
 
         const {
           startDateTime,
@@ -34,9 +36,6 @@ const Ticket = ({ ticket }) => {
 
         return (
           <div key={id} className="ticket-container">
-            <h2 className="movie-ticket-title">
-              {movie.title}
-            </h2>
             <div className="ticket-left">
               <p className="movie-ticket-info">{formattedDate}</p>
               <p className="movie-ticket-info">
@@ -51,6 +50,7 @@ const Ticket = ({ ticket }) => {
               </p>
             </div>
             <div className="ticket-right">
+              <h2 className="movie-ticket-title">{movie.title}</h2>
               <img
                 src={qrImageURL}
                 alt={`QR Code for ticket ${id}`}

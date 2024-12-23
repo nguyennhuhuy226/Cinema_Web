@@ -21,12 +21,16 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE , makeFinal = true)
 @Slf4j//cho ghi log
 public class RoomService {
-  RoomRepository roomRepository;
-  RoomMapper roomMapper;
+    RoomRepository roomRepository;
+    RoomMapper roomMapper;
     public List<RoomResponse> getRoomsByBranch(int branchId) {
         return roomRepository.findByBranchId(branchId).stream()
                 .map(roomMapper::toRoomResponse)
                 .toList();
+    }
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<RoomResponse> getRooms(){
+        return  roomRepository.findAll().stream().map(roomMapper::toRoomResponse).toList();
     }
     @PreAuthorize("hasRole('ADMIN')")
     public RoomResponse createRoom(RoomRequest request) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MdEdit, MdDelete } from "react-icons/md";
+import { MdEdit, MdDelete, MdOutlineManageSearch } from "react-icons/md";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import {
@@ -14,8 +14,10 @@ import EditUser from "../modal-admin/EditUser";
 import DeleteUser from "../modal-admin/DeleteUser";
 import { useNotificationModal } from "../../User/notificationModal/NotificationModal";
 import Loading from "../../User/loading/Loading";
+import { useNavigate } from "react-router-dom";
 
 const User = () => {
+    const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -116,6 +118,10 @@ const User = () => {
     }
   };
 
+  const handleViewBill = (id) => {
+    navigate(`/admin/bill-user/${id}`);
+  }
+
   if (loading) {
     return <Loading text="Loading user list..." />;
   }
@@ -170,6 +176,12 @@ const User = () => {
                       <td>{user.address}</td>
                       <td>{user.dob}</td>
                       <td className="user-table-actions">
+                        <button
+                          onClick={() => handleViewBill(user.id)}
+                          className="action-button view"
+                        >
+                          <MdOutlineManageSearch className="h-4 w-4" />
+                        </button>
                         <button
                           className="action-button edit"
                           onClick={() => {

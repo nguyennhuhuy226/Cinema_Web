@@ -6,15 +6,12 @@ import Footer from "../../components/User/footer/Footer";
 import { getAllMovie } from "../../api/apiMovie";
 import Blog from "../../components/User/blog/Blog";
 import Loading from "../../components/User/loading/Loading";
-import { MovieProvider } from "../../context/MovieProvider";
-
 
 const Home = () => {
   const [movie, setMovie] = useState([]);
-  const [loading, setLoading] = useState(true); // Thêm state loading
-  const [error, setError] = useState(null); // Thêm state error
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     fetchAllMovie();
@@ -58,7 +55,6 @@ const Home = () => {
         <Banner />
       </div>
       <div>
-
         <MovieList
           title={"Now Showing"}
           data={movie}

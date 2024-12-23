@@ -134,16 +134,7 @@ const Movie = () => {
   return (
     <div className="movie-container">
       <ModalComponent />
-      <div className="movie-header">
-        <div className="add-button-container">
-          <button
-            className="add-movie-button"
-            onClick={() => setIsAddModalOpen(true)}
-          >
-            + Add Movie
-          </button>
-        </div>
-      </div>
+    
       <div className="movie-table-container">
         <PerfectScrollbar
           style={{ maxHeight: "570px", overflowX: "auto", width: "100%" }}
@@ -155,7 +146,12 @@ const Movie = () => {
                 <th>Image</th>
                 <th>Movie Name</th>
                 <th>Over View</th>
-                <th>Action</th>
+                <th><button
+            className="add-movie-button"
+            onClick={() => setIsAddModalOpen(true)}
+          >
+          Add Movie 
+          </button></th>
               </tr>
             </thead>
             <tbody>
@@ -164,7 +160,7 @@ const Movie = () => {
                   <td>{movie.id}</td>
                   <td>
                     <img
-                      src={`https://image.tmdb.org/t/p/w500${movie.image}`}
+                      src={movie.image}
                       alt={movie.title}
                       className="movie-thumbnail"
                     />

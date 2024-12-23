@@ -26,7 +26,7 @@ export const getAllSchedule = async () => {
   }
 };
 
-//Thêm lịch chiếu theo phim
+//Thêm lịch chiếu 
 export const addSchedule = async (schedule) => {
   try {
     console.log("Request add Schedule: ", schedule);

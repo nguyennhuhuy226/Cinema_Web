@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface BillRepository extends JpaRepository<Bill, Integer> {
     List<Bill> findByUser_Username(String username);
-
+    List<Bill> findByUser_Id(String Id);
 
 }

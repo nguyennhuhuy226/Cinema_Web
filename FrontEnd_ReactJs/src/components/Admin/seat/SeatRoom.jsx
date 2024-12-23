@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNotificationModal } from "../../User/notificationModal/NotificationModal";
 import { useParams } from "react-router-dom";
-import { getSeat } from "../../../api/apiSeat";
+import { getSeat, updateSeat } from "../../../api/apiSeat";
 import "./seat.css";
 import EditSeat from "../modal-admin/EditSeat";
-import { updateUser } from "../../../api/apiUser";
 import Loading from "../../User/loading/Loading";
 
 const SeatRoom = () => {
@@ -34,9 +33,8 @@ const SeatRoom = () => {
   const handleUpdateSeat = async (id, updatedSeat) => {
     try {
       setError(null);
-      // await updateUser(id, updatedSeat);
+      await updateSeat(id, updatedSeat);
       fetchSeat();
-      // Show success notification
       openModal({
         type: "success",
         title: "Seat Updated",

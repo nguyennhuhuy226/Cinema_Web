@@ -5,7 +5,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { MdClose } from "react-icons/md";
 import { Landmark } from "lucide-react";
 
-const BillModal = ({ bill, onClose, goVNPay }) => {
+const BillModal = ({ bill, onClose, goVNPay, title, btn }) => {
   const navigate = useNavigate();
   if (!bill) return null;
 
@@ -15,7 +15,7 @@ const BillModal = ({ bill, onClose, goVNPay }) => {
     <div className="bill-modal-overlay">
       <div className="bill-modal">
         <div className="bill-modal-header">
-          <h2>Payment Details</h2>
+          <h2>{title}</h2>
           <button className="close-button" onClick={onClose}>
             <MdClose size={24} />
           </button>
@@ -59,7 +59,7 @@ const BillModal = ({ bill, onClose, goVNPay }) => {
             Cancel
           </button>
           <button className="pay-button" onClick={goVNPay}>
-            Pay with VNPay
+            {btn}
           </button>
         </div>
       </div>

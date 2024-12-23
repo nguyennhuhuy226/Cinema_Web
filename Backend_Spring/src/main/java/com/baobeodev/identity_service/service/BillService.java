@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -52,10 +53,21 @@ public class BillService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         List<Bill> bills = billRepository.findByUser_Username(username);
-         log.info(" "+bills);
+        log.info(" "+bills);
+        return bills.stream().map(billMapper::toBillResponse).collect(Collectors.toList());
+    }
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<BillResponse> getAllBillsByUser(String idUser){
+        User user=userRepository.findById(idUser).orElseThrow(() ->  new AppException(ErrorCode.USER_NOT_EXISTED));
+        List<Bill> bills = billRepository.findByUser_Id(idUser);
         return bills.stream().map(billMapper::toBillResponse).collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<BillResponse> getBills() {
+        log.info("In method get Bills");
+        return billRepository.findAll().stream().map(billMapper::toBillResponse).toList();
+    }
     @Transactional
     public void addCombosToBill(Integer billId, List<Combo> combos) {
         // Tìm Bill

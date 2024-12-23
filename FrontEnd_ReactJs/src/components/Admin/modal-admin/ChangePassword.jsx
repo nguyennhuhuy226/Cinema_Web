@@ -27,9 +27,9 @@ const ChangePassword = ({ title, onClose, onSave }) => {
 
     return (
         <div className="modal-overlay">
-            <div className="modal-container">
+            <div className="modal-container-seat">
                 <h2 className="modal-header">{title}</h2>
-                <div className="grid-cols-2">
+                <div className="grid-cols-1">
                     <input
                         type="password"
                         name="currentPassword"

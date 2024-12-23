@@ -1,11 +1,12 @@
 /* Schedule Management Styles */
 .schedule-management {
     font-family: Arial, sans-serif;
-    max-width: 850px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 20px;
     margin-top: 30px;
     background-color: #f4f4f4;
+    border-radius: 10px;
 }
 
 .schedule-filters {
@@ -15,12 +16,16 @@
     gap: 10px;
 }
 
-.branch-select, 
+.schedule-branch-select, 
+.schedule-movie-select,
 .date-select, 
 .add-schedule-btn {
-    padding: 8px 12px;
+    padding: 8px 18px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    max-height: 42px;
+    white-space: nowrap;    /* Không cho nội dung xuống dòng */
+    text-overflow: ellipsis; /* Thay phần bị ẩn bằng dấu "..." */
 }
 
 .add-schedule-btn {
@@ -85,7 +90,7 @@
     display: flex;
     gap: 10px;
 }
-
+.view-btn,
 .update-btn, 
 .delete-btn {
     padding: 6px 10px;
@@ -94,7 +99,10 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
+.view-btn {
+    background-color: #a9c21e;
+    color: white;
+}
 .update-btn {
     background-color: #2196F3;
     color: white;

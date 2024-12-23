@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getMovieById } from "../../../api/apiMovie";
 import {
@@ -11,6 +11,7 @@ import {
 import "./moviedetail.css";
 import poster from "../../../assets/images/poster.png";
 import YouTubeModal from "../youtube-modal/YouTubeModal";
+import { MovieContext } from "../../../context/MovieProvider";
 
 const MovieDetail = () => {
   const { id } = useParams();
@@ -18,6 +19,9 @@ const MovieDetail = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [videoUrl, setVideoUrl] = useState(""); // State để lưu URL video
+
+  const { handleTrailer } = useContext(MovieContext);
+
 
   const handleOpenModal = (url) => {
     setVideoUrl(url); // Cập nhật videoUrl khi mở modal
@@ -91,7 +95,7 @@ const MovieDetail = () => {
             <p>{movie.overView}</p>
           </div>
           <div className="movie-actions">
-            <button onClick={() => handleOpenModal(movie.trailer)}
+            <button onClick={() => handleTrailer(movie.trailer)}
               href={movie.trailer}
               className="trailer-button"
               target="_blank"
